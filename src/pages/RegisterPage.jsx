@@ -26,7 +26,7 @@ const RegisterPage = () => {
     role: "RECRUITER",
     skills: [],
     experience: "",
-    companyIds: [], // 🦄 Keep for backend payload, but no UI field
+    companyIds: [], // 🌟 Initialize for backend payload
   });
   const [error, setError] = useState(null);
 
@@ -34,9 +34,16 @@ const RegisterPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleCompaniesChange = (event, values) => {
+    // 🌟 Convert input strings to numbers and validate
+    const newCompanyIds = values
+      .map((value) => parseInt(value, 10))
+      .filter((id) => !isNaN(id) && id >= 1 && id <= 25);
+    setFormData({ ...formData, companyIds: [...new Set(newCompanyIds)] });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // Basic validation
     if (
       !formData.email ||
@@ -192,6 +199,48 @@ const RegisterPage = () => {
                       setFormData({
                         ...formData,
                         skills: [...formData.skills, inputValue],
+                      });
+                      params.inputProps.onChange({ target: { value: "" } }); // 🌟 Clear input
+                    }
+                  }
+                }}
+              />
+            )}
+          />
+
+          <Autocomplete
+            multiple
+            freeSolo
+            options={[]} // 🌟 Allow free input for company IDs
+            value={formData.companyIds.map((id) => id.toString())} // 🌟 Convert IDs to strings for display
+            onChange={handleCompaniesChange}
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => {
+                const { key, ...tagProps } = getTagProps({ index }); // 🌟 Avoid key spread warning
+                return <Chip key={index} label={option} {...tagProps} />;
+              })
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Company IDs (type 1-25, press Enter)"
+                margin="normal"
+                fullWidth
+                onKeyDown={(e) => {
+                  // 🌟 Add company ID on Enter or comma
+                  if (e.key === "Enter" || e.key === ",") {
+                    e.preventDefault();
+                    const inputValue = params.inputProps.value.trim();
+                    const id = parseInt(inputValue, 10);
+                    if (
+                      !isNaN(id) &&
+                      id >= 1 &&
+                      id <= 25 &&
+                      !formData.companyIds.includes(id)
+                    ) {
+                      setFormData({
+                        ...formData,
+                        companyIds: [...formData.companyIds, id],
                       });
                       params.inputProps.onChange({ target: { value: "" } }); // 🌟 Clear input
                     }

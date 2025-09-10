@@ -1,3 +1,9 @@
+#files
+
+#folders
+.vite
+
+
 # Logs
 logs
 *.log
