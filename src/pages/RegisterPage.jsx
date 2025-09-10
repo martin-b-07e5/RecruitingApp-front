@@ -112,6 +112,19 @@ const RegisterPage = () => {
         {error && <Alert severity="error">{error}</Alert>}
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, width: "100%" }}>
           <TextField
+            select
+            label="Role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          >
+            <MenuItem value="RECRUITER">RECRUITER</MenuItem>
+            <MenuItem value="CANDIDATE">CANDIDATE</MenuItem>
+          </TextField>
+
+          <TextField
             fullWidth
             label="Email"
             name="email"
@@ -214,6 +227,7 @@ const RegisterPage = () => {
             options={[]} // 🌟 Allow free input for company IDs
             value={formData.companyIds.map((id) => id.toString())} // 🌟 Convert IDs to strings for display
             onChange={handleCompaniesChange}
+            disabled={formData.role === "CANDIDATE"} // 🌟 Disable for CANDIDATE
             renderTags={(value, getTagProps) =>
               value.map((option, index) => {
                 const { key, ...tagProps } = getTagProps({ index }); // 🌟 Avoid key spread warning
@@ -249,19 +263,6 @@ const RegisterPage = () => {
               />
             )}
           />
-
-          <TextField
-            select
-            label="Role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          >
-            <MenuItem value="RECRUITER">RECRUITER</MenuItem>
-            <MenuItem value="CANDIDATE">CANDIDATE</MenuItem>
-          </TextField>
 
           <Button
             type="submit"
