@@ -103,7 +103,8 @@ const RegisterPage = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginTop: 8,
+          marginTop: 4,
+          marginBottom: 4,
         }}
       >
         <Typography variant="h4" gutterBottom>
@@ -269,7 +270,7 @@ const RegisterPage = () => {
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 2 }}
+            sx={{ mt: 2, mb: 2 }}
           >
             Register
           </Button>
