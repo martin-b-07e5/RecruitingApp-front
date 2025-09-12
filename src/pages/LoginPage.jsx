@@ -45,13 +45,17 @@ const LoginPage = () => {
       return;
     }
 
-    console.log("🚀 ~ file: LoginPage.jsx ~ line 52 ~ handleSubmit ~ formData", formData);
+    console.log("🚀 ~ file: LoginPage.jsx ~ line ~48 ~ handleSubmit ~ formData", formData);
     console.log("Sending payload:", formData); // 🌟 Debug payload
 
     try {
       const response = await loginService(formData);
-      login({ email: response.email, role: response.role }, response.token);
-      navigate("/"); // navigate("/dashboard");
+      login({
+        email: response.email,
+        role: response.role,
+        companyId: response.companyId || [],
+       }, response.token);
+      navigate("/job-offers/create"); // 🌟 Redirect to job offer creation
     } catch (error) {
       setError(error.message || "❌ Login failed");
     }

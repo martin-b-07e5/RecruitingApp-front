@@ -126,7 +126,6 @@ const RegisterPage = () => {
           </TextField>
 
           <TextField
-            fullWidth
             label="Email"
             name="email"
             type="email"
@@ -134,9 +133,9 @@ const RegisterPage = () => {
             onChange={handleChange}
             required
             margin="normal"
+            fullWidth
           />
           <TextField
-            fullWidth
             label="Password"
             name="password"
             type="password"
@@ -144,40 +143,41 @@ const RegisterPage = () => {
             onChange={handleChange}
             required
             margin="normal"
+            fullWidth
           />
           <TextField
-            fullWidth
             label="First Name"
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
             required
             margin="normal"
+            fullWidth
           />
           <TextField
-            fullWidth
             label="Last Name"
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
             required
             margin="normal"
+            fullWidth
           />
           <TextField
-            fullWidth
             label="Phone"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
             margin="normal"
+            fullWidth
           />
           <TextField
-            fullWidth
             label="Experience"
             name="experience"
             value={formData.experience}
             onChange={handleChange}
             margin="normal"
+            fullWidth
           />
 
           <Autocomplete
