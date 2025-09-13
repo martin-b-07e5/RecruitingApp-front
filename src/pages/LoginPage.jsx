@@ -9,7 +9,6 @@ import {
   Typography,
   Box,
   Alert,
-  Chip,
 } from "@mui/material";
 
 const LoginPage = () => {
@@ -55,7 +54,7 @@ const LoginPage = () => {
         role: response.role,
         companyId: response.companyId || [],
        }, response.token);
-      navigate("/job-offers/create"); // 🌟 Redirect to job offer creation
+      navigate("/"); // 🌟 Redirect to home
     } catch (error) {
       setError(error.message || "❌ Login failed");
     }

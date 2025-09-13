@@ -4,10 +4,10 @@ import { AuthContext, AuthProvider } from "./context/AuthContext";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import JobOfferCreatePage from "./pages/JobOfferCreatePage";
+import HomePage from "./pages/HomePage"; // 🌟 Add import
 
 // Main app with routes
 
-// import Home from "./pages/Home";
 // import About from "./pages/About";
 // import Contact from "./pages/Contact";
 // import NotFound from "./pages/NotFound";
@@ -25,25 +25,24 @@ const ProtectedRoute = ({ children, allowedRole }) => {
 function App() {
   return (
     <AuthProvider>
-    <Router>
-      <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
-        <Route path="/" element={<div>Welcome to Recruiting App</div>} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/job-offers/create"
-          element={
-            <ProtectedRoute allowedRole="RECRUITER">
-              <JobOfferCreatePage />
-            </ProtectedRoute>
-          }
-        />
-        {/* <Route path="/about" element={<About />} /> */}
-        {/* <Route path="/contact" element={<Contact />} /> */}
-        {/* <Route path="*" element={<NotFound />} /> */}
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/job-offers/create"
+            element={
+              <ProtectedRoute allowedRole="RECRUITER">
+                <JobOfferCreatePage />
+              </ProtectedRoute>
+            }
+          />
+          {/* <Route path="/about" element={<About />} /> */}
+          {/* <Route path="/contact" element={<Contact />} /> */}
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Routes>
+      </Router>
     </AuthProvider>
   );
 }
