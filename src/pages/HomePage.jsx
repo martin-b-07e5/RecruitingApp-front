@@ -63,7 +63,7 @@ const HomePage = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
       {/* Header */}
       <AppBar position="fixed">
         <Toolbar>
@@ -93,21 +93,39 @@ const HomePage = () => {
       </AppBar>
 
       {/* Body */}
-      <Container sx={{ flexGrow: 1, py: 4 }}>
+      <Container maxWidth="false" sx={{ flexGrow: 1, py: 4 }}>
         <Typography variant="h4" gutterBottom>
           Job Offers
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={3}
+          //   sx={{ justifyContent: "space-between" /* 🌟 Better spacing */ }}
+          sx={{ justifyContent: "center" /* 🌟 Better spacing */ }}
+        >
           {jobOffers.map((job) => (
             <Grid item xs={12} sm={6} md={4} key={job.id}>
-              <Card>
-                <CardContent>
+              <Card
+                sx={{
+                  display: "flex",
+                  flexDirection: "column" /* 🌟 Consistent height */,
+                  height: "100%",
+                  maxWidth: 290,
+                  minWidth: 290,
+                }}
+              >
+                <CardContent sx={{ flexGrow: 1 }}>
                   <Typography variant="h6">{job.title}</Typography>
                   <Typography variant="body2" color="text.secondary">
                     {job.companyName || `Company ID ${job.companyId}`}
                   </Typography>
-                  <Typography variant="body2">{job.description}</Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ minHeight: 60 /* 🌟 Consistent description height */ }}
+                  >
+                    {job.description}
+                  </Typography>
                   <Typography variant="body2">Salary: {job.salary}</Typography>
                   <Typography variant="body2">Location: {job.location}</Typography>
                   <Typography variant="body2">Type: {job.employmentType}</Typography>
@@ -126,7 +144,10 @@ const HomePage = () => {
       </Container>
 
       {/* Footer */}
-      <Box component="footer" sx={{ py: 2, bgcolor: "grey.200", textAlign: "center" }}>
+      <Box
+        component="footer"
+        sx={{ py: 2, bgcolor: "grey.200", textAlign: "center", color: "text.secondary" }}
+      >
         <Typography variant="body2">
           © 2025 Recruiting Platform. All rights reserved.
         </Typography>
