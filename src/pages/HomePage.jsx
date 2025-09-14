@@ -115,6 +115,19 @@ const HomePage = () => {
     }
   };
 
+  // Open modal for applying 🌟
+  const handleOpenApplyModal = (jobId) => {
+    setSelectedJobOfferId(jobId);
+    setOpenApplyModal(true);
+  };
+
+  // Close modal for applying 🌟
+  const handleCloseApplyModal = () => {
+    setOpenApplyModal(false);
+    setCoverLetter("");
+    setSelectedJobOfferId(null);
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
       {/* Header */}
@@ -152,7 +165,9 @@ const HomePage = () => {
         <Typography variant="h4" gutterBottom>
           Job Offers
         </Typography>
+
         {error && <Typography color="error">{error}</Typography>}
+
         <Grid
           container
           spacing={3}
@@ -160,8 +175,8 @@ const HomePage = () => {
           // sx={{ justifyContent: "flex-start" /* default */ }}
           // sx={{ justifyContent: "flex-end" }}
           // sx={{ justifyContent: "space-around" }}
-            // sx={{ justifyContent: "space-between"}}
-            sx={{ justifyContent: "space-evenly" /* Better spacing */ }}
+          // sx={{ justifyContent: "space-between"}}
+          sx={{ justifyContent: "space-evenly" /* Better spacing */ }}
         >
           {jobOffers.map((job) => {
             const application = applications.find((app) => {
@@ -196,13 +211,10 @@ const HomePage = () => {
                   <CardActions sx={{ justifyContent: "space-between" }}>
                     {user?.role === "CANDIDATE" && (
                       <>
-                        {/* Apply */}
+                        {/* Apply new */}
                         <Button
                           variant="contained"
-                          onClick={() => {
-                            console.log("Application for job", job.id, ":", application);
-                            handleApply(job.id);
-                          }}
+                          onClick={() => handleOpenApplyModal(job.id)}
                           disabled={
                             application &&
                             (application.status === "PENDING" ||
@@ -212,14 +224,12 @@ const HomePage = () => {
                           Apply
                         </Button>
 
-                        {/* Withdraw */}
+                        {/* Withdraw new */}
                         <Button
                           variant="outlined"
                           color="error"
-                          onClick={() => {
-                            handleWithdraw(application.id);
-                          }}
-                          disabled={application?.status !== "PENDING"}
+                          onClick={() => handleWithdraw(application.id)}
+                          disabled={!application || application.status !== "PENDING"}
                         >
                           Withdraw
                         </Button>
@@ -232,6 +242,26 @@ const HomePage = () => {
           })}
         </Grid>
       </Container>
+
+      {/* Apply Modal */}
+      <Dialog open={openApplyModal} onClose={handleCloseApplyModal}>
+        <DialogTitle>Apply to Job Offer</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Cover Letter"
+            multiline
+            rows={4}
+            value={coverLetter}
+            onChange={(e) => setCoverLetter(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseApplyModal}>Cancel</Button>
+          <Button onClick={() => handleApply(selectedJobOfferId)} color="primary">
+            Apply
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Footer */}
       <Box
