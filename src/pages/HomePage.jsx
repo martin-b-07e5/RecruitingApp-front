@@ -13,17 +13,26 @@ import {
   Grid,
   AppBar,
   Toolbar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
 } from "@mui/material";
 
 const HomePage = () => {
   const { user, token } = useContext(AuthContext);
   const navigate = useNavigate();
   const [jobOffers, setJobOffers] = useState([]);
-  const [error, setError] = useState(null); // 🌟 Add error state
+  const [error, setError] = useState(null); // Add error state
   const [applications, setApplications] = useState([]);
+  const [openApplyModal, setOpenApplyModal] = useState(false); // 🌟 Modal state
+  const [selectedJobOfferId, setSelectedJobOfferId] = useState(null); // 🌟 Track selected job
+  const [coverLetter, setCoverLetter] = useState(""); // 🌟 Cover letter input
 
-  // Fetch all job offers
+  // Fetch job offers and candidate's applications
   useEffect(() => {
+    // Fetch all job offers
     const fetchJobOffers = async () => {
       try {
         const response = await axios.get(
@@ -51,6 +60,7 @@ const HomePage = () => {
         }
       }
     };
+
     fetchJobOffers();
     fetchApplications();
   }, [user, token]);
@@ -65,7 +75,7 @@ const HomePage = () => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/job-applications/apply",
-        { jobOfferId },
+        { jobOfferId, coverLetter }, // 🌟 Include coverLetter
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setError(null);
@@ -76,9 +86,11 @@ const HomePage = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setApplications(responseApps.data || []);
+      setOpenApplyModal(false); // 🌟 Close modal
+      setCoverLetter(""); // 🌟 Reset cover letter
     } catch (error) {
       console.error("Apply to job offer error: ", error);
-      setError(error.response?.data || "❌ Failed to apply to job offer"); // 🌟 Use backend error message
+      setError(error.response?.data || "❌ Failed to apply to job offer"); // Use backend error message
     }
   };
 
@@ -111,18 +123,20 @@ const HomePage = () => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Recruiting Platform
           </Typography>
+          {/* Show user info, after login */}
           {user ? (
             <>
               <Typography variant="body1" sx={{ mr: 2 }}>
-                {user.email} ({user.role})
+                {user.email} | ({user.role})
               </Typography>
               <Button
                 color="inherit"
                 onClick={() =>
-                  navigate(user.role === "recruiter" ? "/job-offers/create" : "/login")
+                  navigate(user.role === "RECRUITER" ? "/job-offers/create" : "/login")
                 }
               >
-                {user.role === "recruiter" ? "Create Job Offer" : "Login"}
+                {/* text to show depending on user role */}
+                {user.role === "RECRUITER" ? "Create Job Offer" : "Login"}
               </Button>
             </>
           ) : (
@@ -142,21 +156,25 @@ const HomePage = () => {
         <Grid
           container
           spacing={3}
-          //   sx={{ justifyContent: "space-between" /* 🌟 Better spacing */ }}
-          sx={{ justifyContent: "center" }}
+          // sx={{ justifyContent: "center" }}
+          // sx={{ justifyContent: "flex-start" /* default */ }}
+          // sx={{ justifyContent: "flex-end" }}
+          // sx={{ justifyContent: "space-around" }}
+            // sx={{ justifyContent: "space-between"}}
+            sx={{ justifyContent: "space-evenly" /* Better spacing */ }}
         >
           {jobOffers.map((job) => {
             const application = applications.find((app) => {
-            //   console.log("Checking application:", app, "for job.id:", job.id); // 🌟 Debug each application. important
-              return app.jobOfferId === job.id; // 🌟 Match jobOfferId
+              //   console.log("Checking application:", app, "for job.id:", job.id); // Debug each application. important
+              return app.jobOfferId === job.id; // Match jobOfferId
             });
-            // console.log("Application for job", job.id, ":", application); // 🌟 Debug final application. important
+            // console.log("Application for job", job.id, ":", application); // Debug final application. important
             return (
               <Grid item xs={12} sm={6} md={4} key={job.id}>
                 <Card
                   sx={{
                     display: "flex",
-                    flexDirection: "column" /* 🌟 Consistent height */,
+                    flexDirection: "column",
                     height: "100%",
                     maxWidth: 290,
                     minWidth: 290,
@@ -165,7 +183,7 @@ const HomePage = () => {
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography variant="h6">{job.title}</Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {job.companyName || `Company ID ${job.companyId}`}
+                      {job.companyId}- {job.companyName || `Company ID ${job.companyId}`}
                     </Typography>
                     <Typography variant="body2" sx={{ minHeight: 60 }}>
                       {job.description}
