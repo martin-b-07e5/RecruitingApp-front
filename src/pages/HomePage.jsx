@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import Header from "./Header"; // 🌟 Import Header
 import axios from "axios";
 import {
   Container,
@@ -11,13 +12,15 @@ import {
   CardContent,
   CardActions,
   Grid,
-  AppBar,
-  Toolbar,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const HomePage = () => {
@@ -47,12 +50,21 @@ const HomePage = () => {
 
     // Fetch candidate's applications
     const fetchApplications = async () => {
-      if (user?.role === "CANDIDATE") {
+      if (
+        user?.role === "CANDIDATE" ||
+        user?.role === "RECRUITER" ||
+        user?.role === "ADMIN"
+      ) {
         try {
-          const response = await axios.get(
-            "http://localhost:8080/api/job-applications/getCandidateJobApplications",
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
+          const endpoint =
+            user?.role === "CANDIDATE"
+              ? "http://localhost:8080/api/job-applications/getCandidateJobApplications"
+              : user?.role === "ADMIN"
+              ? "http://localhost:8080/api/job-applications/getCandidateJobApplications"
+              : "http://localhost:8080/api/job-applications/getJobsApplicationsForRecruiters";
+          const response = await axios.get(endpoint, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           setApplications(response.data || []);
         } catch (error) {
           console.error("Fetch candidate applications error: ", error);
@@ -115,6 +127,27 @@ const HomePage = () => {
     }
   };
 
+  // Handle status change
+  const handleStatusChange = async (applicationId, newStatus) => {
+    try {
+      await axios.put(
+        `http://localhost:8080/api/job-applications/updateApplicationStatus/${applicationId}`,
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setError(null);
+      alert("✅ Application status updated successfully");
+      setApplications(
+        applications.map((app) =>
+          app.id === applicationId ? { ...app, status: newStatus } : app
+        )
+      );
+    } catch (error) {
+      console.error("Update application status error: ", error);
+      setError(error.response?.data || "❌ Failed to update application status");
+    }
+  };
+
   // Open modal for applying
   const handleOpenApplyModal = (jobId) => {
     setSelectedJobOfferId(jobId);
@@ -130,39 +163,8 @@ const HomePage = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
-      {/* Header */}
-      <AppBar position="fixed">
-        {/* 🌟 */}
-        <Toolbar>
-          {/* Title */}
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Recruiting Platform
-          </Typography>
-
-          {/* Show user info, after login */}
-          {user ? (
-            <>
-              <Typography variant="body1" sx={{ mr: 2 }}>
-                {user.email} | ({user.role})
-              </Typography>
-              {user.role === "RECRUITER" && (
-                <Button color="inherit" onClick={() => navigate("/job-offers/create")}>
-                  Create Job Offer
-                </Button>
-              )}
-              <Button color="inherit" onClick={logout}>
-                {" "}
-                {/* 🌟 Use logout from AuthContext */}
-                Logout
-              </Button>
-            </>
-          ) : (
-            <Button color="inherit" onClick={() => navigate("/login")}>
-              Login
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
+      {/* Header - 🌟 Use Header component*/}
+      <Header />
 
       {/* Body */}
       <Container maxWidth="false" sx={{ flexGrow: 1, py: 4, px: { xs: 2, sm: 3 } }}>
@@ -239,6 +241,26 @@ const HomePage = () => {
                         </Button>
                       </>
                     )}
+
+                    {(user?.role === "RECRUITER" || user?.role === "ADMIN") &&
+                      application && (
+                        <FormControl sx={{ minWidth: 120 }}>
+                          <InputLabel>Status</InputLabel>
+                          <Select
+                            value={application.status}
+                            onChange={(e) =>
+                              handleStatusChange(application.id, e.target.value)
+                            }
+                            label="Status"
+                          >
+                            <MenuItem value="PENDING">Pending</MenuItem>
+                            <MenuItem value="UNDER_REVIEW">Under Review</MenuItem>
+                            <MenuItem value="INTERVIEW">Interview</MenuItem>
+                            <MenuItem value="ACCEPTED">Accepted</MenuItem>
+                            <MenuItem value="REJECTED">Rejected</MenuItem>
+                          </Select>
+                        </FormControl>
+                      )}
                   </CardActions>
                 </Card>
               </Grid>

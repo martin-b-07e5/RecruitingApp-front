@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { createJobOffer } from "../services/authService";
+import Header from "./Header"; // 🌟 Import Header
 import axios from "axios";
 import {
   Container,
@@ -127,109 +128,114 @@ const JobOfferCreatePage = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: 4,
-          marginBottom: 4,
-          borderRadius: 4,
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <Typography variant="h4" gutterBottom>
-          Create a Job Offer
-        </Typography>
+    <Box sx={{mt: 12}}>
+      {/* Header - 🌟 Use Header component*/}
+      <Header />
 
-        {error && <Alert severity="error">{error}</Alert>}
+      <Container maxWidth="sm">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: 4,
+            marginBottom: 4,
+            borderRadius: 4,
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <Typography variant="h4" gutterBottom>
+            Create a Job Offer
+          </Typography>
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, width: "100%" }}>
-          <TextField
-            label="Title"
-            name="title"
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            required
-            margin="normal"
-            fullWidth
-          />
+          {error && <Alert severity="error">{error}</Alert>}
 
-          <TextField
-            label="Description"
-            name="description"
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            required
-            margin="normal"
-            fullWidth
-            multiline
-            rows={4}
-          />
-
-          <TextField
-            label="Salary"
-            name="salary"
-            value={formData.salary}
-            onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
-            required
-            margin="normal"
-            fullWidth
-          />
-
-          <TextField
-            label="Location"
-            name="location"
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            required
-            margin="normal"
-            fullWidth
-          />
-
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Employment Type</InputLabel>
-            <Select
-              name="employmentType"
-              value={formData.employmentType}
-              onChange={handleChange}
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, width: "100%" }}>
+            <TextField
+              label="Title"
+              name="title"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               required
-            >
-              <MenuItem value="FULL_TIME">Full Time</MenuItem>
-              <MenuItem value="PART_TIME">Part Time</MenuItem>
-              <MenuItem value="FREELANCE">Freelance</MenuItem>
-            </Select>
-          </FormControl>
+              margin="normal"
+              fullWidth
+            />
 
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Company</InputLabel>
-            <Select
-              name="companyId"
-              value={formData.companyId}
-              onChange={handleChange}
+            <TextField
+              label="Description"
+              name="description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               required
-            >
-              {companyIds.map((company) => (
-                <MenuItem key={company.id} value={company.id}>
-                  {company.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              margin="normal"
+              fullWidth
+              multiline
+              rows={4}
+            />
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2, mb: 2 }}
-            fullWidth
-          >
-            Create Job Offer
-          </Button>
+            <TextField
+              label="Salary"
+              name="salary"
+              value={formData.salary}
+              onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+              required
+              margin="normal"
+              fullWidth
+            />
+
+            <TextField
+              label="Location"
+              name="location"
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              required
+              margin="normal"
+              fullWidth
+            />
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Employment Type</InputLabel>
+              <Select
+                name="employmentType"
+                value={formData.employmentType}
+                onChange={handleChange}
+                required
+              >
+                <MenuItem value="FULL_TIME">Full Time</MenuItem>
+                <MenuItem value="PART_TIME">Part Time</MenuItem>
+                <MenuItem value="FREELANCE">Freelance</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Company</InputLabel>
+              <Select
+                name="companyId"
+                value={formData.companyId}
+                onChange={handleChange}
+                required
+              >
+                {companyIds.map((company) => (
+                  <MenuItem key={company.id} value={company.id}>
+                    {company.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2, mb: 2 }}
+              fullWidth
+            >
+              Create Job Offer
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

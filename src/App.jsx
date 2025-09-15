@@ -4,19 +4,19 @@ import { AuthContext, AuthProvider } from "./context/AuthContext";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import JobOfferCreatePage from "./pages/JobOfferCreatePage";
-import HomePage from "./pages/HomePage"; // 🌟 Add import
+import HomePage from "./pages/HomePage";
+import RecruiterDashboard from "./pages/RecruiterDashboard"; // 🌟 Add import
 
 // Main app with routes
-
 // import About from "./pages/About";
 // import Contact from "./pages/Contact";
 // import NotFound from "./pages/NotFound";
 
 // 🌟 ProtectedRoute component to restrict access
-const ProtectedRoute = ({ children, allowedRole }) => {
+const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user } = useContext(AuthContext);
-  if (!user || user.role !== allowedRole) {
-    console.log("ProtectedRoute - User: ", user, " Allowed Role: ", allowedRole);
+  if (!user || !allowedRoles.includes(user.role)) {
+    console.log("ProtectedRoute - User: ", user, " Allowed Role: ", allowedRoles);
     return <Navigate to="/login" />;
   }
   return children;
@@ -33,11 +33,21 @@ function App() {
           <Route
             path="/job-offers/create"
             element={
-              <ProtectedRoute allowedRole="RECRUITER">
+              <ProtectedRoute allowedRoles="RECRUITER">
                 <JobOfferCreatePage />
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/recruiter-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["RECRUITER", "ADMIN"]}>
+                <RecruiterDashboard />
+              </ProtectedRoute>
+            }
+          />
+
           {/* <Route path="/about" element={<About />} /> */}
           {/* <Route path="/contact" element={<Contact />} /> */}
           {/* <Route path="*" element={<NotFound />} /> */}
