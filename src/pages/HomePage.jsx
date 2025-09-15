@@ -21,14 +21,14 @@ import {
 } from "@mui/material";
 
 const HomePage = () => {
-  const { user, token } = useContext(AuthContext);
+  const { user, token, logout } = useContext(AuthContext); // 🌟 Use logout from AuthContext
   const navigate = useNavigate();
   const [jobOffers, setJobOffers] = useState([]);
   const [error, setError] = useState(null); // Add error state
   const [applications, setApplications] = useState([]);
-  const [openApplyModal, setOpenApplyModal] = useState(false); // 🌟 Modal state
-  const [selectedJobOfferId, setSelectedJobOfferId] = useState(null); // 🌟 Track selected job
-  const [coverLetter, setCoverLetter] = useState(""); // 🌟 Cover letter input
+  const [openApplyModal, setOpenApplyModal] = useState(false); // Modal state
+  const [selectedJobOfferId, setSelectedJobOfferId] = useState(null); // Track selected job
+  const [coverLetter, setCoverLetter] = useState(""); // Cover letter input
 
   // Fetch job offers and candidate's applications
   useEffect(() => {
@@ -75,7 +75,7 @@ const HomePage = () => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/job-applications/apply",
-        { jobOfferId, coverLetter }, // 🌟 Include coverLetter
+        { jobOfferId, coverLetter }, // Include coverLetter
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setError(null);
@@ -86,8 +86,8 @@ const HomePage = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setApplications(responseApps.data || []);
-      setOpenApplyModal(false); // 🌟 Close modal
-      setCoverLetter(""); // 🌟 Reset cover letter
+      setOpenApplyModal(false); // Close modal
+      setCoverLetter(""); // Reset cover letter
     } catch (error) {
       console.error("Apply to job offer error: ", error);
       setError(error.response?.data || "❌ Failed to apply to job offer"); // Use backend error message
@@ -115,13 +115,13 @@ const HomePage = () => {
     }
   };
 
-  // Open modal for applying 🌟
+  // Open modal for applying
   const handleOpenApplyModal = (jobId) => {
     setSelectedJobOfferId(jobId);
     setOpenApplyModal(true);
   };
 
-  // Close modal for applying 🌟
+  // Close modal for applying
   const handleCloseApplyModal = () => {
     setOpenApplyModal(false);
     setCoverLetter("");
@@ -132,24 +132,28 @@ const HomePage = () => {
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
       {/* Header */}
       <AppBar position="fixed">
+        {/* 🌟 */}
         <Toolbar>
+          {/* Title */}
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Recruiting Platform
           </Typography>
+
           {/* Show user info, after login */}
           {user ? (
             <>
               <Typography variant="body1" sx={{ mr: 2 }}>
                 {user.email} | ({user.role})
               </Typography>
-              <Button
-                color="inherit"
-                onClick={() =>
-                  navigate(user.role === "RECRUITER" ? "/job-offers/create" : "/login")
-                }
-              >
-                {/* text to show depending on user role */}
-                {user.role === "RECRUITER" ? "Create Job Offer" : "Login"}
+              {user.role === "RECRUITER" && (
+                <Button color="inherit" onClick={() => navigate("/job-offers/create")}>
+                  Create Job Offer
+                </Button>
+              )}
+              <Button color="inherit" onClick={logout}>
+                {" "}
+                {/* 🌟 Use logout from AuthContext */}
+                Logout
               </Button>
             </>
           ) : (
@@ -257,7 +261,10 @@ const HomePage = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseApplyModal}>Cancel</Button>
-          <Button onClick={() => handleApply(selectedJobOfferId)} color="primary">
+          <Button
+            onClick={() => handleApply(selectedJobOfferId, coverLetter)} // 🌟 Fixed to include coverLetter
+            color="primary"
+          >
             Apply
           </Button>
         </DialogActions>
