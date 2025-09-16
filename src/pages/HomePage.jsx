@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 
 const HomePage = () => {
-  const { user, token, logout } = useContext(AuthContext); // 🌟 Use logout from AuthContext
+  const { user, token } = useContext(AuthContext); // 🌟 Use logout from AuthContext
   const navigate = useNavigate();
   const [jobOffers, setJobOffers] = useState([]);
   const [error, setError] = useState(null); // Add error state
@@ -33,18 +33,57 @@ const HomePage = () => {
   const [selectedJobOfferId, setSelectedJobOfferId] = useState(null); // Track selected job
   const [coverLetter, setCoverLetter] = useState(""); // Cover letter input
 
+  // 🌟 delete job offer handler
+  const handleDeleteJobOffer = async (jobOfferId) => {
+    console.log("Delete button clicked for jobOfferId:", jobOfferId);
+    // if (window.confirm("Are you sure you want to delete this job offer?")) {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/api/job-offers/${jobOfferId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("Delete response:", response.data);
+      setError(null);
+      alert("✅ Job offer deleted successfully");
+      setJobOffers(jobOffers.filter((job) => job.id !== jobOfferId));
+    } catch (error) {
+      console.error("Delete job offer error:", error.response || error);
+      const errorMessage =
+        error.response?.data ||
+        "❌ Failed to delete job offer - Cannot delete job offer with active applications";
+      setError(
+        typeof errorMessage === "string" ? errorMessage : JSON.stringify(errorMessage)
+      );
+      if (error.response?.status === 401) {
+        navigate("/login");
+      }
+    }
+    // }
+  };
+
   // Fetch job offers and candidate's applications
   useEffect(() => {
     // Fetch all job offers
     const fetchJobOffers = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/job-offers/getAllJobOffers"
-        );
+        const endpoint =
+          user?.role === "RECRUITER"
+            ? `http://localhost:8080/api/job-offers/getMyJobOffers`
+            : "http://localhost:8080/api/job-offers/getAllJobOffers";
+        const response = await axios.get(endpoint, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setJobOffers(response.data || []);
       } catch (error) {
         console.error("Fetch job offers error: ", error);
-        setError(error.response?.data || "❌ Failed to fetch job offers");
+        if (error.response?.status === 401) {
+          setError("❌ Unauthorized: Please log in again");
+          navigate("/login");
+        } else {
+          setError(error.response?.data || "❌ Failed to fetch job offers");
+        }
       }
     };
 
@@ -60,7 +99,7 @@ const HomePage = () => {
             user?.role === "CANDIDATE"
               ? "http://localhost:8080/api/job-applications/getCandidateJobApplications"
               : user?.role === "ADMIN"
-              ? "http://localhost:8080/api/job-applications/getCandidateJobApplications"
+              ? "http://localhost:8080/api/job-applications/getAllJobApplications" // 🌟 endpoint for ADMIN
               : "http://localhost:8080/api/job-applications/getJobsApplicationsForRecruiters";
           const response = await axios.get(endpoint, {
             headers: { Authorization: `Bearer ${token}` },
@@ -75,7 +114,7 @@ const HomePage = () => {
 
     fetchJobOffers();
     fetchApplications();
-  }, [user, token]);
+  }, [user, token, navigate]);
 
   // Handle job application
   const handleApply = async (jobOfferId) => {
@@ -214,10 +253,11 @@ const HomePage = () => {
                     <Typography variant="body2">Type: {job.employmentType}</Typography>
                   </CardContent>
 
-                  <CardActions sx={{ justifyContent: "space-between" }}>
+                  <CardActions sx={{ justifyContent: "space-between", flexWrap: "wrap" }}>
+                    {/* CANDIDATE actions */}
                     {user?.role === "CANDIDATE" && (
                       <>
-                        {/* Apply new */}
+                        {/* Apply */}
                         <Button
                           variant="contained"
                           onClick={() => handleOpenApplyModal(job.id)}
@@ -230,7 +270,7 @@ const HomePage = () => {
                           Apply
                         </Button>
 
-                        {/* Withdraw new */}
+                        {/* Withdraw */}
                         <Button
                           variant="outlined"
                           color="error"
@@ -241,26 +281,42 @@ const HomePage = () => {
                         </Button>
                       </>
                     )}
-
-                    {(user?.role === "RECRUITER" || user?.role === "ADMIN") &&
-                      application && (
-                        <FormControl sx={{ minWidth: 120 }}>
-                          <InputLabel>Status</InputLabel>
-                          <Select
-                            value={application.status}
-                            onChange={(e) =>
-                              handleStatusChange(application.id, e.target.value)
+                    {(user?.role === "RECRUITER" || user?.role === "ADMIN") && (
+                      <FormControl sx={{ minWidth: 120 }}>
+                        <InputLabel>Status</InputLabel>
+                        <Select
+                          value={application?.status || "PENDING"}
+                          onChange={(e) => {
+                            if (!application) {
+                              // Create a new application for ADMIN if none exists
+                              handleApply(job.id, "", e.target.value);
+                            } else {
+                              handleStatusChange(application.id, e.target.value);
                             }
-                            label="Status"
-                          >
-                            <MenuItem value="PENDING">Pending</MenuItem>
-                            <MenuItem value="UNDER_REVIEW">Under Review</MenuItem>
-                            <MenuItem value="INTERVIEW">Interview</MenuItem>
-                            <MenuItem value="ACCEPTED">Accepted</MenuItem>
-                            <MenuItem value="REJECTED">Rejected</MenuItem>
-                          </Select>
-                        </FormControl>
-                      )}
+                          }}
+                          label="Status"
+                          disabled={!application && user?.role === "RECRUITER"} // RECRUITER can't create new applications
+                        >
+                          {/* only show whitdrawn to recruiter */}
+                          <MenuItem value="WITHDRAWN">Withdrawn</MenuItem>{" "}
+                          <MenuItem value="PENDING">Pending</MenuItem>
+                          <MenuItem value="UNDER_REVIEW">Under Review</MenuItem>
+                          <MenuItem value="INTERVIEW">Interview</MenuItem>
+                          <MenuItem value="ACCEPTED">Accepted</MenuItem>
+                          <MenuItem value="REJECTED">Rejected</MenuItem>
+                        </Select>
+                      </FormControl>
+                    )}
+                    {user?.role === "RECRUITER" && ( // 🌟 Delete button
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => handleDeleteJobOffer(job.id)}
+                        sx={{ mb: 1 }}
+                      >
+                        Delete
+                      </Button>
+                    )}
                   </CardActions>
                 </Card>
               </Grid>

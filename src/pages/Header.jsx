@@ -44,6 +44,13 @@ const Header = () => {
                 >
                   Dashboard
                 </Button>
+                <Button
+                  color="inherit"
+                  onClick={() => navigate("/all-job-offers")} // 🌟 Add All Job Offers button
+                  sx={{ mr: 1 }}
+                >
+                  All Job Offers
+                </Button>
               </>
             )}
             <Button color="inherit" onClick={logout}>
