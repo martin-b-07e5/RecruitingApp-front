@@ -2,6 +2,9 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { register } from "../services/authService";
+import HeaderPage from "./HeaderPage"; // 🌟 Import Header
+import FooterPage from "./FooterPage"
+import { Helmet } from "react-helmet";
 import {
   Container,
   TextField,
@@ -98,6 +101,9 @@ const RegisterPage = () => {
 
   return (
     <Container maxWidth="sm">
+      <Helmet>
+        <title>Register | Recruiting Platform</title>
+      </Helmet>
       <Box
         sx={{
           display: "flex",

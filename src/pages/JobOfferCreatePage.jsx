@@ -5,6 +5,7 @@ import { createJobOffer } from "../services/authService";
 import HeaderPage from "./HeaderPage"; // 🌟 Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 import {
   Container,
   TextField,
@@ -130,6 +131,10 @@ const JobOfferCreatePage = () => {
 
   return (
     <Box sx={{ mt: 12 }}>
+      <Helmet>
+        <title>Create Job Offer | Recruiting Platform</title>
+      </Helmet>
+
       {/* Header - 🌟 Use Header component*/}
       <HeaderPage />
 
@@ -239,7 +244,6 @@ const JobOfferCreatePage = () => {
 
       {/* Footer */}
       <FooterPage />
-
     </Box>
   );
 };

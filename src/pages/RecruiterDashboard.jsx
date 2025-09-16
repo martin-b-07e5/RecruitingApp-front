@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import HeaderPage from "./HeaderPage"; // 🌟 Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 import {
   Container,
   Typography,
@@ -65,6 +66,10 @@ const RecruiterDashboard = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
+      <Helmet>
+        <title>Job Applications Dashboard | Recruiting Platform</title>
+      </Helmet>
+
       {/* Header - 🌟 Use Header component */}
       <HeaderPage />
 
