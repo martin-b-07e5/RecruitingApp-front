@@ -313,6 +313,7 @@ const HomePage = () => {
                         color="error"
                         onClick={() => handleDeleteJobOffer(job.id)}
                         sx={{ mb: 1 }}
+                        disabled={!!application}
                       >
                         Delete
                       </Button>
