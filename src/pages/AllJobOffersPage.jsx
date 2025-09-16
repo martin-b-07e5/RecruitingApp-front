@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { Container, Typography, Box, Card, CardContent, Grid } from "@mui/material";
-import Header from "./Header";
+import HeaderPage from "./HeaderPage";
+import FooterPage from "./FooterPage";
 
 // 🌟 New page to display all job offers
 const AllJobOffersPage = () => {
@@ -30,7 +31,7 @@ const AllJobOffersPage = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
-      <Header />
+      <HeaderPage />
       <Container maxWidth={false} sx={{ flexGrow: 1, py: 4, px: { xs: 2, sm: 3 } }}>
         <Typography variant="h4" gutterBottom>
           All Job Offers
@@ -65,14 +66,10 @@ const AllJobOffersPage = () => {
           ))}
         </Grid>
       </Container>
-      <Box
-        component="footer"
-        sx={{ py: 2, bgcolor: "grey.200", textAlign: "center", color: "text.secondary" }}
-      >
-        <Typography variant="body2">
-          © 2025 Recruiting Platform. All rights reserved.
-        </Typography>
-      </Box>
+
+      {/* Footer */}
+      <FooterPage />
+
     </Box>
   );
 };

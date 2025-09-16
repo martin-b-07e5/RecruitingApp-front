@@ -2,7 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { createJobOffer } from "../services/authService";
-import Header from "./Header"; // 🌟 Import Header
+import HeaderPage from "./HeaderPage"; // 🌟 Import Header
+import FooterPage from "./FooterPage";
 import axios from "axios";
 import {
   Container,
@@ -128,9 +129,9 @@ const JobOfferCreatePage = () => {
   };
 
   return (
-    <Box sx={{mt: 12}}>
+    <Box sx={{ mt: 12 }}>
       {/* Header - 🌟 Use Header component*/}
-      <Header />
+      <HeaderPage />
 
       <Container maxWidth="sm">
         <Box
@@ -235,6 +236,10 @@ const JobOfferCreatePage = () => {
           </Box>
         </Box>
       </Container>
+
+      {/* Footer */}
+      <FooterPage />
+
     </Box>
   );
 };

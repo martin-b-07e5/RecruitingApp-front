@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import Header from "./Header"; // 🌟 Import Header
+import HeaderPage from "./HeaderPage"; // 🌟 Import Header
+import FooterPage from "./FooterPage";
 import axios from "axios";
 import {
   Container,
@@ -203,7 +204,7 @@ const HomePage = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
       {/* Header - 🌟 Use Header component*/}
-      <Header />
+      <HeaderPage />
 
       {/* Body */}
       <Container maxWidth="false" sx={{ flexGrow: 1, py: 4, px: { xs: 2, sm: 3 } }}>
@@ -349,15 +350,8 @@ const HomePage = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Footer */}
-      <Box
-        component="footer"
-        sx={{ py: 2, bgcolor: "grey.200", textAlign: "center", color: "text.secondary" }}
-      >
-        <Typography variant="body2">
-          © 2025 Recruiting Platform. All rights reserved.
-        </Typography>
-      </Box>
+      {/* Footer - 🌟 Use Footer component */}
+      <FooterPage />
     </Box>
   );
 };

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { AppBar, Toolbar, Typography, Button, Tooltip } from "@mui/material";
 
-const Header = () => {
+const HeaderPage = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -68,4 +68,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderPage;
