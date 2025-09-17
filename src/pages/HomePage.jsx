@@ -59,7 +59,7 @@ const HomePage = () => {
         typeof errorMessage === "string" ? errorMessage : JSON.stringify(errorMessage)
       );
       if (error.response?.status === 401) {
-        navigate("/login");
+        navigate("/signin");
       }
     }
     // }
@@ -82,7 +82,7 @@ const HomePage = () => {
         console.error("Fetch job offers error: ", error);
         if (error.response?.status === 401) {
           setError("❌ Unauthorized: Please log in again");
-          navigate("/login");
+          navigate("/signin");
         } else {
           setError(error.response?.data || "❌ Failed to fetch job offers");
         }
@@ -122,7 +122,7 @@ const HomePage = () => {
   const handleApply = async (jobOfferId) => {
     if (!user || user.role !== "CANDIDATE") {
       setError("❌ You must be a candidate to apply for a job offer");
-      navigate("/login");
+      navigate("/signin");
       return;
     }
     try {

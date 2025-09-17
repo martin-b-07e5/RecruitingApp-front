@@ -62,14 +62,14 @@ const HeaderPage = () => {
           <>
             <Button
               color="inherit"
-              onClick={() => navigate("/signup")} // 🌟 Use /register
+              onClick={() => navigate("/signup")} // 🌟 Use /signup
               sx={{ mr: 1 }}
             >
               Sign Up
             </Button>
             <Button
               color="inherit"
-              onClick={() => navigate("/signin")} // 🌟 Use /login
+              onClick={() => navigate("/signin")} // 🌟 Use /signin
               sx={{ mr: 1 }}
             >
               Sign In

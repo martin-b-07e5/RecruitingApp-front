@@ -39,13 +39,13 @@ const JobOfferCreatePage = () => {
   useEffect(() => {
     if (!user || user.role !== "RECRUITER") {
       setError("❌ You must be a recruiter to create a job offer.");
-      navigate("/login");
+      navigate("/signin");
       return;
     }
     const fetchCompanyIds = async () => {
       if (!token) {
         setError("❌ No authentication token found. Please log in again.");
-        navigate("/login");
+        navigate("/signin");
         return;
       }
       try {
@@ -60,7 +60,7 @@ const JobOfferCreatePage = () => {
             ? "❌ Invalid token. Please log in again."
             : "❌ Failed to fetch company IDs"
         );
-        if (err.response?.status === 401) navigate("/login");
+        if (err.response?.status === 401) navigate("/signin");
       }
     };
     fetchCompanyIds();

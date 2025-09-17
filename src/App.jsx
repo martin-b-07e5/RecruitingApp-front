@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user } = useContext(AuthContext);
   if (!user || !allowedRoles.includes(user.role)) {
     console.log("ProtectedRoute - User: ", user, " Allowed Role: ", allowedRoles);
-    return <Navigate to="/login" />;
+    return <Navigate to="/signin" />;
   }
   return children;
 };
