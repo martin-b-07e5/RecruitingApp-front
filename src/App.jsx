@@ -27,53 +27,55 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/signin" element={<SignInPage />} />
+        {" "}
+        {/* 🌟 Add minWidth and minHeight */}
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/signin" element={<SignInPage />} />
 
-          <Route
-            path="/job-offers/create"
-            element={
-              <ProtectedRoute allowedRoles="RECRUITER">
-                <JobOfferCreatePage />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/job-offers/create"
+              element={
+                <ProtectedRoute allowedRoles="RECRUITER">
+                  <JobOfferCreatePage />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/recruiter-dashboard"
-            element={
-              <ProtectedRoute allowedRoles={["RECRUITER", "ADMIN"]}>
-                <RecruiterDashboard />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/recruiter-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["RECRUITER", "ADMIN"]}>
+                  <RecruiterDashboard />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/all-job-offers" // 🌟 New route for All Job Offers
-            element={
-              <ProtectedRoute allowedRoles={["RECRUITER"]}>
-                <AllJobOffersPage />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/all-job-offers" // 🌟 New route for All Job Offers
+              element={
+                <ProtectedRoute allowedRoles={["RECRUITER"]}>
+                  <AllJobOffersPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="candidate-dashboard"
-            element={
-              <ProtectedRoute allowedRoles={["CANDIDATE"]}>
-                <CandidateDashboard />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="candidate-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["CANDIDATE"]}>
+                  <CandidateDashboard />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* <Route path="/about" element={<About />} /> */}
-          {/* <Route path="/contact" element={<Contact />} /> */}
-          {/* <Route path="*" element={<NotFound />} /> */}
-        </Routes>
-      </Router>
+            {/* <Route path="/about" element={<About />} /> */}
+            {/* <Route path="/contact" element={<Contact />} /> */}
+            {/* <Route path="*" element={<NotFound />} /> */}
+          </Routes>
+        </Router>
     </AuthProvider>
   );
 }
