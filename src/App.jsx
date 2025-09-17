@@ -6,6 +6,7 @@ import SignInPage from "./pages/SignInPage.jsx";
 import JobOfferCreatePage from "./pages/JobOfferCreatePage";
 import HomePage from "./pages/HomePage";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
+import CandidateDashboard from "./pages/CandidateDashboard";
 import AllJobOffersPage from "./pages/AllJobOffersPage"; // 🌟 Add import
 
 // Main app with routes
@@ -55,6 +56,15 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["RECRUITER"]}>
                 <AllJobOffersPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="candidate-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["CANDIDATE"]}>
+                <CandidateDashboard />
               </ProtectedRoute>
             }
           />

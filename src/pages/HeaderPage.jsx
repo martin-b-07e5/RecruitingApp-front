@@ -28,6 +28,7 @@ const HeaderPage = () => {
             <Typography variant="body1" sx={{ mr: 2 }}>
               {user.email} | ({user.role})
             </Typography>
+            {/* Recruiter buttons */}
             {user.role === "RECRUITER" && (
               <>
                 <Button
@@ -44,6 +45,7 @@ const HeaderPage = () => {
                 >
                   Dashboard
                 </Button>
+
                 <Button
                   color="inherit"
                   onClick={() => navigate("/all-job-offers")} // 🌟 Add All Job Offers button
@@ -53,6 +55,18 @@ const HeaderPage = () => {
                 </Button>
               </>
             )}
+
+            {/* Candidate buttons */}
+            {user.role === "CANDIDATE" && (
+              <Button
+                color="inherit"
+                onClick={() => navigate("/candidate-dashboard")} // 🌟 Add for CANDIDATE
+                sx={{ mr: 1 }}
+              >
+                Dashboard
+              </Button>
+            )}
+
             <Button color="inherit" onClick={logout}>
               {/* 🌟 Use logout from AuthContext */}
               Sign Out
