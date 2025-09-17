@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { login as loginService } from "../services/authService";
 import HeaderPage from "./HeaderPage";
 import FooterPage from "./FooterPage";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, TextField, Button, Typography, Box, Alert } from "@mui/material";
 
 const LoginPage = () => {
@@ -64,9 +64,11 @@ const LoginPage = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <HelmetProvider>
       <Helmet>
         <title>Sign In | Recruiting Platform</title>
       </Helmet>
+      </HelmetProvider>
 
       {/* 🌟 Header */}
       <HeaderPage />

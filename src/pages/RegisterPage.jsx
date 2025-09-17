@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { register } from "../services/authService";
 import HeaderPage from "./HeaderPage"; // 🌟 Import Header
-import FooterPage from "./FooterPage"
-import { Helmet } from "react-helmet";
+import FooterPage from "./FooterPage";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
   Container,
   TextField,
@@ -101,9 +101,14 @@ const RegisterPage = () => {
 
   return (
     <Container maxWidth="sm">
-      <Helmet>
-        <title>Register | Recruiting Platform</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>Register | Recruiting Platform</title>
+        </Helmet>
+      </HelmetProvider>
+
+      <HeaderPage />
+
       <Box
         sx={{
           display: "flex",
@@ -282,6 +287,8 @@ const RegisterPage = () => {
           </Button>
         </Box>
       </Box>
+
+      <FooterPage />
     </Container>
   );
 };

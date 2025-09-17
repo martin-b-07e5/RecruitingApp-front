@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import HeaderPage from "./HeaderPage"; // 🌟 Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
   Container,
   Typography,
@@ -204,9 +204,11 @@ const HomePage = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
+      <HelmetProvider>
       <Helmet>
         <title>Home | Recruiting Platform</title>
       </Helmet>
+      </HelmetProvider>
 
       {/* Header - 🌟 Use Header component*/}
       <HeaderPage />
