@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext, AuthProvider } from "./context/AuthContext";
-import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage.jsx";
+import SignInPage from "./pages/SignInPage.jsx";
 import JobOfferCreatePage from "./pages/JobOfferCreatePage";
 import HomePage from "./pages/HomePage";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
@@ -29,8 +29,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<RegisterPage />} />
-          <Route path="/signin" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/signin" element={<SignInPage />} />
 
           <Route
             path="/job-offers/create"

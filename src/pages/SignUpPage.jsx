@@ -17,7 +17,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 
-const RegisterPage = () => {
+const SignUpPage = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -297,4 +297,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default SignUpPage;

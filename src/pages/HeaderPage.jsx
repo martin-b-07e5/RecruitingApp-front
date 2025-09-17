@@ -55,7 +55,7 @@ const HeaderPage = () => {
             )}
             <Button color="inherit" onClick={logout}>
               {/* 🌟 Use logout from AuthContext */}
-              Logout
+              Sign Out
             </Button>
           </>
         ) : (

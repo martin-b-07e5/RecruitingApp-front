@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import HeaderPage from "./HeaderPage"; // 🌟 Import Header
 import FooterPage from "./FooterPage";
@@ -20,8 +20,8 @@ import {
 } from "@mui/material";
 
 const RecruiterDashboard = () => {
-  const { user, token, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { user, token } = useContext(AuthContext);
+  // const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [error, setError] = useState(null);
 

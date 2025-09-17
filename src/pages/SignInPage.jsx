@@ -7,7 +7,7 @@ import FooterPage from "./FooterPage";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, TextField, Button, Typography, Box, Alert } from "@mui/material";
 
-const LoginPage = () => {
+const SignInPage = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -41,7 +41,7 @@ const LoginPage = () => {
     }
 
     console.log(
-      "🚀 ~ file: LoginPage.jsx ~ line ~48 ~ handleSubmit ~ formData",
+      "🚀 ~ file: SignInPage.jsx ~ line ~48 ~ handleSubmit ~ formData",
       formData
     );
     console.log("Sending payload:", formData); // 🌟 Debug payload
@@ -135,4 +135,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignInPage;
