@@ -59,9 +59,22 @@ const HeaderPage = () => {
             </Button>
           </>
         ) : (
-          <Button color="inherit" onClick={() => navigate("/login")}>
-            Login
-          </Button>
+          <>
+            <Button
+              color="inherit"
+              onClick={() => navigate("/signup")} // 🌟 Use /register
+              sx={{ mr: 1 }}
+            >
+              Sign Up
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => navigate("/signin")} // 🌟 Use /login
+              sx={{ mr: 1 }}
+            >
+              Sign In
+            </Button>
+          </>
         )}
       </Toolbar>
     </AppBar>

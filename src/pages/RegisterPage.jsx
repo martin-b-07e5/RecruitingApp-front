@@ -100,196 +100,200 @@ const RegisterPage = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <HelmetProvider>
-        <Helmet>
-          <title>Register | Recruiting Platform</title>
-        </Helmet>
-      </HelmetProvider>
-
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", pt: 6 }}>
+      {/* Header */}
       <HeaderPage />
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: 4,
-          marginBottom: 4,
-        }}
-      >
-        <Typography variant="h4" gutterBottom>
-          Register as a Recruiter
-        </Typography>
-        {error && <Alert severity="error">{error}</Alert>}
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, width: "100%" }}>
-          <TextField
-            select
-            label="Role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          >
-            <MenuItem value="RECRUITER">RECRUITER</MenuItem>
-            <MenuItem value="CANDIDATE">CANDIDATE</MenuItem>
-          </TextField>
+      <Container maxWidth="sm">
+        <HelmetProvider>
+          <Helmet>
+            <title>Register | Recruiting Platform</title>
+          </Helmet>
+        </HelmetProvider>
 
-          <TextField
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="First Name"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="Last Name"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="Phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="Experience"
-            name="experience"
-            value={formData.experience}
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
-          />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: 4,
+            marginBottom: 4,
+          }}
+        >
+          <Typography variant="h4" gutterBottom>
+            Create your account
+          </Typography>
+          {error && <Alert severity="error">{error}</Alert>}
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, width: "100%" }}>
+            <TextField
+              select
+              label="Role"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            >
+              <MenuItem value="RECRUITER">RECRUITER</MenuItem>
+              <MenuItem value="CANDIDATE">CANDIDATE</MenuItem>
+            </TextField>
 
-          <Autocomplete
-            multiple
-            freeSolo
-            options={[]} // 🌟 Fix options undefined error
-            value={formData.skills}
-            onChange={(event, values) => {
-              // 🌟 Update skills from values
-              const newSkills = values
-                .map((skill) => skill.trim())
-                .filter((skill) => skill !== "");
-              setFormData({ ...formData, skills: [...new Set(newSkills)] });
-            }}
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => {
-                const { key, ...tagProps } = getTagProps({ index }); // 🌟 Extract key to avoid spread warning
-                return <Chip key={index} label={option} {...tagProps} />;
-              })
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Skills (type, press Enter or comma)"
-                margin="normal"
-                fullWidth
-                onKeyDown={(e) => {
-                  // 🌟 Handle comma or Enter to add skill
-                  if (e.key === "," || e.key === "Enter") {
-                    e.preventDefault();
-                    const inputValue = params.inputProps.value.trim();
-                    if (inputValue && !formData.skills.includes(inputValue)) {
-                      setFormData({
-                        ...formData,
-                        skills: [...formData.skills, inputValue],
-                      });
-                      params.inputProps.onChange({ target: { value: "" } }); // 🌟 Clear input
+            <TextField
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="First Name"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="Last Name"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="Phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="Experience"
+              name="experience"
+              value={formData.experience}
+              onChange={handleChange}
+              margin="normal"
+              fullWidth
+            />
+
+            <Autocomplete
+              multiple
+              freeSolo
+              options={[]} // 🌟 Fix options undefined error
+              value={formData.skills}
+              onChange={(event, values) => {
+                // 🌟 Update skills from values
+                const newSkills = values
+                  .map((skill) => skill.trim())
+                  .filter((skill) => skill !== "");
+                setFormData({ ...formData, skills: [...new Set(newSkills)] });
+              }}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...tagProps } = getTagProps({ index }); // 🌟 Extract key to avoid spread warning
+                  return <Chip key={index} label={option} {...tagProps} />;
+                })
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Skills (type, press Enter or comma)"
+                  margin="normal"
+                  fullWidth
+                  onKeyDown={(e) => {
+                    // 🌟 Handle comma or Enter to add skill
+                    if (e.key === "," || e.key === "Enter") {
+                      e.preventDefault();
+                      const inputValue = params.inputProps.value.trim();
+                      if (inputValue && !formData.skills.includes(inputValue)) {
+                        setFormData({
+                          ...formData,
+                          skills: [...formData.skills, inputValue],
+                        });
+                        params.inputProps.onChange({ target: { value: "" } }); // 🌟 Clear input
+                      }
                     }
-                  }
-                }}
-              />
-            )}
-          />
+                  }}
+                />
+              )}
+            />
 
-          <Autocomplete
-            multiple
-            freeSolo
-            options={[]} // 🌟 Allow free input for company IDs
-            value={formData.companyIds.map((id) => id.toString())} // 🌟 Convert IDs to strings for display
-            onChange={handleCompaniesChange}
-            disabled={formData.role === "CANDIDATE"} // 🌟 Disable for CANDIDATE
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => {
-                const { key, ...tagProps } = getTagProps({ index }); // 🌟 Avoid key spread warning
-                return <Chip key={index} label={option} {...tagProps} />;
-              })
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Company IDs (type 1-25, press Enter)"
-                margin="normal"
-                fullWidth
-                onKeyDown={(e) => {
-                  // 🌟 Add company ID on Enter or comma
-                  if (e.key === "Enter" || e.key === ",") {
-                    e.preventDefault();
-                    const inputValue = params.inputProps.value.trim();
-                    const id = parseInt(inputValue, 10);
-                    if (
-                      !isNaN(id) &&
-                      id >= 1 &&
-                      id <= 25 &&
-                      !formData.companyIds.includes(id)
-                    ) {
-                      setFormData({
-                        ...formData,
-                        companyIds: [...formData.companyIds, id],
-                      });
-                      params.inputProps.onChange({ target: { value: "" } }); // 🌟 Clear input
+            <Autocomplete
+              multiple
+              freeSolo
+              options={[]} // 🌟 Allow free input for company IDs
+              value={formData.companyIds.map((id) => id.toString())} // 🌟 Convert IDs to strings for display
+              onChange={handleCompaniesChange}
+              disabled={formData.role === "CANDIDATE"} // 🌟 Disable for CANDIDATE
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...tagProps } = getTagProps({ index }); // 🌟 Avoid key spread warning
+                  return <Chip key={index} label={option} {...tagProps} />;
+                })
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Company IDs (type 1-25, press Enter)"
+                  margin="normal"
+                  fullWidth
+                  onKeyDown={(e) => {
+                    // 🌟 Add company ID on Enter or comma
+                    if (e.key === "Enter" || e.key === ",") {
+                      e.preventDefault();
+                      const inputValue = params.inputProps.value.trim();
+                      const id = parseInt(inputValue, 10);
+                      if (
+                        !isNaN(id) &&
+                        id >= 1 &&
+                        id <= 25 &&
+                        !formData.companyIds.includes(id)
+                      ) {
+                        setFormData({
+                          ...formData,
+                          companyIds: [...formData.companyIds, id],
+                        });
+                        params.inputProps.onChange({ target: { value: "" } }); // 🌟 Clear input
+                      }
                     }
-                  }
-                }}
-              />
-            )}
-          />
+                  }}
+                />
+              )}
+            />
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2, mb: 2 }}
-          >
-            Register
-          </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+          </Box>
         </Box>
-      </Box>
+      </Container>
 
+      {/* Footer */}
       <FooterPage />
-    </Container>
+    </Box>
   );
 };
 

@@ -93,7 +93,7 @@ const LoginPage = () => {
           }}
         >
           <Typography variant="h4" gutterBottom>
-            Login
+            Sign In
           </Typography>
 
           {error && <Alert severity="error">{error}</Alert>}
@@ -123,7 +123,7 @@ const LoginPage = () => {
               margin="normal"
             />
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Login
+              Sign In
             </Button>
           </Box>
         </Box>
