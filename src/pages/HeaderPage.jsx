@@ -10,15 +10,27 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Alert,
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
+import axios from "axios";
+
+const BASE_API_URL = "http://localhost:8080/api";
 
 const HeaderPage = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, token ,logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null); // 🌟 State for menu
   const menuOpen = Boolean(anchorEl);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false); // 🌟 Add success state
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -38,11 +50,44 @@ const HeaderPage = () => {
     handleMenuClose();
   };
 
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+    setError(null);
+    setSuccess(false); // 🌟 Reset success
+    handleMenuClose();
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setError(null);
+    setSuccess(false); // 🌟 Reset success
+    if (success) {
+      logout();
+      navigate("/");
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!token) {
+      setError("❌ No authentication token found. Please log in again.");
+      navigate("/signin");
+      return;
+    }
+    try {
+      await axios.delete(`${BASE_API_URL}/users/delete-self`, {
+        headers: { Authorization: `Bearer ${token}` }, // 🌟 Use token
+      });
+      setSuccess(true); // 🌟 Set success state
+      setError(null);
+    } catch (error) {
+      console.error("Delete account error:", error);
+      setError(error.response?.data || "❌ Failed to delete account");
+    }
+  };
+
   return (
     <AppBar position="fixed" sx={{ bgcolor: "secondary.main" }}>
-      {/* Header */}
       <Toolbar>
-        {/* Title */}
         <Tooltip title="Go to Home" placement="bottom-start">
           <Typography
             variant="h6"
@@ -52,6 +97,15 @@ const HeaderPage = () => {
             Recruiting Platform
           </Typography>
         </Tooltip>
+
+        {error && (
+          <Alert
+            severity="error"
+            sx={{ position: "absolute", top: 64, left: 16, right: 16 }}
+          >
+            {error}
+          </Alert>
+        )}
 
         {/* Hamburger Menu for small screens */}
         <IconButton
@@ -105,6 +159,10 @@ const HeaderPage = () => {
                     Dashboard
                   </MenuItem>
                 ),
+                // Delete account
+                <MenuItem key="delete-account" onClick={handleOpenDialog}>
+                  Delete Account
+                </MenuItem>,
                 <MenuItem key="sign-out" onClick={handleLogout}>
                   Sign Out
                 </MenuItem>,
@@ -119,6 +177,7 @@ const HeaderPage = () => {
               ]}
         </Menu>
         {/* Regular buttons for larger screens */}
+        {/* email and role */}
         <Typography
           variant="body1"
           sx={{ mr: 2, display: { xs: "none", sm: "block" } }} // 🌟 Hide <600px
@@ -161,6 +220,14 @@ const HeaderPage = () => {
                 Dashboard
               </Button>
             )}
+            {/* Delete account */}
+            <Button
+              color="inherit"
+              onClick={handleOpenDialog}
+              sx={{ mr: 1, display: { xs: "none", sm: "inline-flex" } }}
+            >
+              Delete Account
+            </Button>
             <Button
               color="inherit"
               onClick={logout}
@@ -188,6 +255,37 @@ const HeaderPage = () => {
           </>
         )}
       </Toolbar>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="delete-account-dialog-title"
+      >
+        <DialogTitle id="delete-account-dialog-title">Delete Account</DialogTitle>
+        <DialogContent>
+          {success ? (
+            <Alert severity="success" aria-live="polite">
+              ✅ Account deleted successfully
+            </Alert>
+          ) : (
+            <>
+              <DialogContentText>
+                Are you sure you want to delete your account? This action cannot be undone.
+              </DialogContentText>
+              {error && <Alert severity="error" aria-live="polite">{error}</Alert>}
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} autoFocus={success}>
+            {success ? "Close" : "Cancel"}
+          </Button>
+          {!success && (
+            <Button onClick={handleDeleteAccount} color="error">
+              Delete
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
     </AppBar>
   );
 };
