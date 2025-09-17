@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../auth/AuthContext";
 import axios from "axios";
 import { Container, Typography, Box, Card, CardContent, Grid } from "@mui/material";
 import HeaderPage from "./HeaderPage";

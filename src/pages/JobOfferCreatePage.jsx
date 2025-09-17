@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import { createJobOffer } from "../services/authService";
+import { AuthContext } from "../auth/AuthContext";
+import { createJobOffer } from "../auth/authService";
 import HeaderPage from "./HeaderPage"; // 🌟 Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";

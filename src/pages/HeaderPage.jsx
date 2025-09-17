@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../auth/AuthContext";
 import { AppBar, Toolbar, Typography, Button, Tooltip } from "@mui/material";
 
 const HeaderPage = () => {

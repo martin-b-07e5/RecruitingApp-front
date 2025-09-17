@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import { login as loginService } from "../services/authService";
+import { AuthContext } from "../auth/AuthContext";
+import { login as loginService } from "../auth/authService";
 import HeaderPage from "./HeaderPage";
 import FooterPage from "./FooterPage";
 import { Helmet, HelmetProvider } from "react-helmet-async";

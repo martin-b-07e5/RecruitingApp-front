@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext, AuthProvider } from "./context/AuthContext";
+import { AuthContext, AuthProvider } from "./auth/AuthContext";
 import SignUpPage from "./pages/SignUpPage.jsx";
 import SignInPage from "./pages/SignInPage.jsx";
 import JobOfferCreatePage from "./pages/JobOfferCreatePage";
