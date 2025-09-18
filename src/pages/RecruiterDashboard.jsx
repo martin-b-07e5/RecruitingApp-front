@@ -94,7 +94,17 @@ const RecruiterDashboard = () => {
                 }}
               >
                 <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography variant="h6">{app.jobOfferTitle}</Typography>
+                  <Typography variant="h6">
+                    {app.jobOfferId}- {app.jobOfferTitle}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Company: {app.companyId}- {app.companyName || "Unknown Company"}{" "}
+                    {/* 🌟 Add companyName */}
+                  </Typography>
+                  <Typography>
+                    <hr />
+                  </Typography>
+
                   <Typography variant="body2" color="text.secondary">
                     Candidate: {app.candidateFirstName} {app.candidateLastName}
                   </Typography>
