@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/AuthContext";
-import HeaderPage from "./HeaderPage"; // 🌟 Import Header
+import HeaderPage from "./HeaderPage"; // Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -21,7 +20,6 @@ import {
 
 const RecruiterDashboard = () => {
   const { user, token } = useContext(AuthContext);
-  // const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [error, setError] = useState(null);
 
@@ -72,7 +70,7 @@ const RecruiterDashboard = () => {
         </Helmet>
       </HelmetProvider>
 
-      {/* Header - 🌟 Use Header component */}
+      {/* Header - Use Header component */}
       <HeaderPage />
 
       {/* Body */}
@@ -99,7 +97,7 @@ const RecruiterDashboard = () => {
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Company: {app.companyId}- {app.companyName || "Unknown Company"}{" "}
-                    {/* 🌟 Add companyName */}
+                    {/* Add companyName */}
                   </Typography>
                   <Typography>
                     <hr />
@@ -136,7 +134,9 @@ const RecruiterDashboard = () => {
                       value={app.status}
                       onChange={(e) => handleStatusChange(app.id, e.target.value)}
                       label="Status"
+                      disabled={app.status === "WITHDRAWN"} // 🌟 Disable if status is WITHDRAWN
                     >
+                      <MenuItem value="WITHDRAWN">Withdrawn</MenuItem>{" "}
                       <MenuItem value="PENDING">Pending</MenuItem>
                       <MenuItem value="UNDER_REVIEW">Under Review</MenuItem>
                       <MenuItem value="INTERVIEW">Interview</MenuItem>

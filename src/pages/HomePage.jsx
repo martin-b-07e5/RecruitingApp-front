@@ -275,7 +275,7 @@ const HomePage = () => {
                         <Button
                           variant="contained"
                           onClick={() => handleOpenApplyModal(job.id)}
-                          disabled={!!application} // 🌟 Disable if any application exists
+                          disabled={!!application} // Disable if any application exists
                         >
                           Apply
                         </Button>
@@ -305,7 +305,8 @@ const HomePage = () => {
                             }
                           }}
                           label="Status"
-                          disabled={!application && user?.role === "RECRUITER"} // RECRUITER can't create new applications
+                          disabled={!application || application?.status === "WITHDRAWN"} // 🌟 Disable if no application or WITHDRAWN
+
                         >
                           {/* only show whitdrawn to recruiter */}
                           <MenuItem value="WITHDRAWN">Withdrawn</MenuItem>{" "}
