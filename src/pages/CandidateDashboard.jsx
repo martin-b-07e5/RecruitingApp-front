@@ -5,7 +5,16 @@ import FooterPage from "./FooterPage";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Box, Grid, Container, Typography, Card, CardContent, CardActions, Button, Alert } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+} from "@mui/material";
 
 const BASE_API_URL = "http://localhost:8080/api";
 
@@ -95,16 +104,17 @@ const CandidateDashboard = () => {
                 >
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography variant="h6">
-                      {app.jobOffer?.title || "Unknown Job"}
+                      {app.jobOfferId}- {app.jobOfferTitle || "Unknown Job"}
                     </Typography>
+
                     <Typography variant="body2" color="text.secondary">
-                      Company:{" "}
-                      {app.jobOffer?.companyName ||
-                        `Company ID ${app.jobOffer?.companyId}`}
+                      {app.companyId}- {app.companyName || "Unknown Company"}
                     </Typography>
                     <Typography variant="body2">Status: {app.status}</Typography>
                     <Typography variant="body2">
-                      Applied: {new Date(app.createdAt).toLocaleDateString()}
+                      {/* Applied: {new Date(app.appliedAt).toLocaleDateString()} */}
+                      Applied: {new Date(app.appliedAt).toISOString().split("T")[0]}
+                      {/* split('T')[0] takes the part before the T, resulting in only YYYY-MM-DD. */}
                     </Typography>
                   </CardContent>
                   <CardActions sx={{ justifyContent: "space-between", flexWrap: "wrap" }}>
