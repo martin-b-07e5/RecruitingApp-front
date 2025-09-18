@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/AuthContext";
-import HeaderPage from "./HeaderPage"; // 🌟 Import Header
+import HeaderPage from "./HeaderPage"; // Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -25,8 +25,10 @@ import {
   MenuItem,
 } from "@mui/material";
 
+const BASE_API_URL = "http://localhost:8080/api";
+
 const HomePage = () => {
-  const { user, token } = useContext(AuthContext); // 🌟 Use logout from AuthContext
+  const { user, token } = useContext(AuthContext); // Use logout from AuthContext
   const navigate = useNavigate();
   const [jobOffers, setJobOffers] = useState([]);
   const [error, setError] = useState(null); // Add error state
@@ -35,13 +37,13 @@ const HomePage = () => {
   const [selectedJobOfferId, setSelectedJobOfferId] = useState(null); // Track selected job
   const [coverLetter, setCoverLetter] = useState(""); // Cover letter input
 
-  // 🌟 delete job offer handler
+  // delete job offer handler
   const handleDeleteJobOffer = async (jobOfferId) => {
     console.log("Delete button clicked for jobOfferId:", jobOfferId);
     // if (window.confirm("Are you sure you want to delete this job offer?")) {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/api/job-offers/${jobOfferId}`,
+        `${BASE_API_URL}/job-offers/${jobOfferId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -72,8 +74,8 @@ const HomePage = () => {
       try {
         const endpoint =
           user?.role === "RECRUITER"
-            ? `http://localhost:8080/api/job-offers/getMyJobOffers`
-            : "http://localhost:8080/api/job-offers/getAllJobOffers";
+            ? `${BASE_API_URL}/job-offers/getMyJobOffers`
+            : `${BASE_API_URL}/job-offers/getAllJobOffers`;
         const response = await axios.get(endpoint, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -99,10 +101,10 @@ const HomePage = () => {
         try {
           const endpoint =
             user?.role === "CANDIDATE"
-              ? "http://localhost:8080/api/job-applications/getCandidateJobApplications"
+              ? `${BASE_API_URL}/job-applications/getCandidateJobApplications`
               : user?.role === "ADMIN"
-              ? "http://localhost:8080/api/job-applications/getAllJobApplications" // 🌟 endpoint for ADMIN
-              : "http://localhost:8080/api/job-applications/getJobsApplicationsForRecruiters";
+              ? `${BASE_API_URL}/job-applications/getAllJobApplications` // endpoint for ADMIN
+              : `${BASE_API_URL}/job-applications/getJobsApplicationsForRecruiters`;
           const response = await axios.get(endpoint, {
             headers: { Authorization: `Bearer ${token}` },
           });
@@ -127,7 +129,7 @@ const HomePage = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/job-applications/apply",
+        `${BASE_API_URL}/job-applications/apply`,
         { jobOfferId, coverLetter }, // Include coverLetter
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -135,7 +137,7 @@ const HomePage = () => {
       alert("✅ You have successfully applied for the job offer");
       // Refresh applications
       const responseApps = await axios.get(
-        "http://localhost:8080/api/job-applications/getCandidateJobApplications",
+        `${BASE_API_URL}/job-applications/getCandidateJobApplications`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setApplications(responseApps.data || []);
@@ -151,14 +153,14 @@ const HomePage = () => {
   const handleWithdraw = async (applicationId) => {
     try {
       await axios.delete(
-        `http://localhost:8080/api/job-applications/withdrawApplication/${applicationId}`,
+        `${BASE_API_URL}/job-applications/withdrawApplication/${applicationId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setError(null);
       alert("✅ Application withdrawn successfully");
       // Refresh applications
       const response = await axios.get(
-        "http://localhost:8080/api/job-applications/getCandidateJobApplications",
+        `${BASE_API_URL}/job-applications/getCandidateJobApplications`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setApplications(response.data || []);
@@ -172,7 +174,7 @@ const HomePage = () => {
   const handleStatusChange = async (applicationId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:8080/api/job-applications/updateApplicationStatus/${applicationId}`,
+        `${BASE_API_URL}/job-applications/updateApplicationStatus/${applicationId}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -205,12 +207,12 @@ const HomePage = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} pt={6}>
       <HelmetProvider>
-      <Helmet>
-        <title>Home | Recruiting Platform</title>
-      </Helmet>
+        <Helmet>
+          <title>Home | Recruiting Platform</title>
+        </Helmet>
       </HelmetProvider>
 
-      {/* Header - 🌟 Use Header component*/}
+      {/* Header - Use Header component*/}
       <HeaderPage />
 
       {/* Body */}
@@ -249,7 +251,9 @@ const HomePage = () => {
                   }}
                 >
                   <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h6">{job.title}</Typography>
+                    <Typography variant="h6">
+                      {job.id}- {job.title}
+                    </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {job.companyId}- {job.companyName || `Company ID ${job.companyId}`}
                     </Typography>
@@ -259,6 +263,8 @@ const HomePage = () => {
                     <Typography variant="body2">Salary: {job.salary}</Typography>
                     <Typography variant="body2">Location: {job.location}</Typography>
                     <Typography variant="body2">Type: {job.employmentType}</Typography>
+                    <Typography>&nbsp;</Typography>
+                    <Typography>Recruiter: {job.recruiterId}- {job.recruiterFirstName} {job.recruiterLastName}</Typography>
                   </CardContent>
 
                   <CardActions sx={{ justifyContent: "space-between", flexWrap: "wrap" }}>
@@ -269,11 +275,7 @@ const HomePage = () => {
                         <Button
                           variant="contained"
                           onClick={() => handleOpenApplyModal(job.id)}
-                          disabled={
-                            application &&
-                            (application.status === "PENDING" ||
-                              application.status === "WITHDRAWN")
-                          }
+                          disabled={!!application} // 🌟 Disable if any application exists
                         >
                           Apply
                         </Button>
@@ -315,7 +317,7 @@ const HomePage = () => {
                         </Select>
                       </FormControl>
                     )}
-                    {user?.role === "RECRUITER" && ( // 🌟 Delete button
+                    {user?.role === "RECRUITER" && ( // Delete button
                       <Button
                         variant="outlined"
                         color="error"
@@ -349,7 +351,7 @@ const HomePage = () => {
         <DialogActions>
           <Button onClick={handleCloseApplyModal}>Cancel</Button>
           <Button
-            onClick={() => handleApply(selectedJobOfferId, coverLetter)} // 🌟 Fixed to include coverLetter
+            onClick={() => handleApply(selectedJobOfferId, coverLetter)} // Fixed to include coverLetter
             color="primary"
           >
             Apply
@@ -357,7 +359,7 @@ const HomePage = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Footer - 🌟 Use Footer component */}
+      {/* Footer - Use Footer component */}
       <FooterPage />
     </Box>
   );

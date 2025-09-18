@@ -116,6 +116,9 @@ const CandidateDashboard = () => {
                       Applied: {new Date(app.appliedAt).toISOString().split("T")[0]}
                       {/* split('T')[0] takes the part before the T, resulting in only YYYY-MM-DD. */}
                     </Typography>
+
+                    <Typography>&nbsp;</Typography>
+                    <Typography>Recruiter: {app.recruiterId}- {app.recruiterFirstName} {app.recruiterLastName}</Typography>
                   </CardContent>
                   <CardActions sx={{ justifyContent: "space-between", flexWrap: "wrap" }}>
                     <Button

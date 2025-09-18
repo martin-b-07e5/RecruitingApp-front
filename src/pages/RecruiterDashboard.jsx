@@ -113,7 +113,9 @@ const RecruiterDashboard = () => {
                     Cover Letter: {app.coverLetter || "None"}
                   </Typography>
                   <Typography variant="body2">
-                    Applied: {new Date(app.appliedAt).toLocaleDateString()}
+                    {/* Applied: {new Date(app.appliedAt).toLocaleDateString()} */}
+                    Applied: {new Date(app.appliedAt).toISOString().split("T")[0]}
+                    {/* split('T')[0] takes the part before the T, resulting in only YYYY-MM-DD. */}
                   </Typography>
                   <Typography variant="body2">Status: {app.status}</Typography>
                 </CardContent>
