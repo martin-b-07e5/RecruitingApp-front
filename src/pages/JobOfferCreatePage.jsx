@@ -19,6 +19,9 @@ import {
   FormControl,
 } from "@mui/material";
 
+// const BASE_API_URL = "http://localhost:8080/api";
+const BASE_API_URL = "http://localhost:8085/api";
+
 const JobOfferCreatePage = () => {
   const { user, token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -49,7 +52,7 @@ const JobOfferCreatePage = () => {
         return;
       }
       try {
-        const response = await axios.get("http://localhost:8080/api/users/companies", {
+        const response = await axios.get(`${BASE_API_URL}/api/users/companies`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCompanyIds(response.data || []); // Expect array of Longs, e.g., [1, 3]
@@ -132,9 +135,9 @@ const JobOfferCreatePage = () => {
   return (
     <Box sx={{ mt: 12 }}>
       <HelmetProvider>
-      <Helmet>
-        <title>Create Job Offer | Recruiting Platform</title>
-      </Helmet>
+        <Helmet>
+          <title>Create Job Offer | Recruiting Platform</title>
+        </Helmet>
       </HelmetProvider>
 
       {/* Header - 🌟 Use Header component*/}

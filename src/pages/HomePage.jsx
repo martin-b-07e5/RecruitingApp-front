@@ -25,7 +25,8 @@ import {
   MenuItem,
 } from "@mui/material";
 
-const BASE_API_URL = "http://localhost:8080/api";
+// const BASE_API_URL = "http://localhost:8080/api";
+const BASE_API_URL = "http://localhost:8085/api";
 
 const HomePage = () => {
   const { user, token } = useContext(AuthContext); // Use logout from AuthContext
@@ -42,12 +43,9 @@ const HomePage = () => {
     console.log("Delete button clicked for jobOfferId:", jobOfferId);
     // if (window.confirm("Are you sure you want to delete this job offer?")) {
     try {
-      const response = await axios.delete(
-        `${BASE_API_URL}/job-offers/${jobOfferId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.delete(`${BASE_API_URL}/job-offers/${jobOfferId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       console.log("Delete response:", response.data);
       setError(null);
       alert("✅ Job offer deleted successfully");
@@ -264,7 +262,10 @@ const HomePage = () => {
                     <Typography variant="body2">Location: {job.location}</Typography>
                     <Typography variant="body2">Type: {job.employmentType}</Typography>
                     <Typography>&nbsp;</Typography>
-                    <Typography>Recruiter: {job.recruiterId}- {job.recruiterFirstName} {job.recruiterLastName}</Typography>
+                    <Typography>
+                      Recruiter: {job.recruiterId}- {job.recruiterFirstName}{" "}
+                      {job.recruiterLastName}
+                    </Typography>
                   </CardContent>
 
                   <CardActions sx={{ justifyContent: "space-between", flexWrap: "wrap" }}>
@@ -306,7 +307,6 @@ const HomePage = () => {
                           }}
                           label="Status"
                           disabled={!application || application?.status === "WITHDRAWN"} // 🌟 Disable if no application or WITHDRAWN
-
                         >
                           {/* only show whitdrawn to recruiter */}
                           <MenuItem value="WITHDRAWN">Withdrawn</MenuItem>{" "}

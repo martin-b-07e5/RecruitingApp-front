@@ -16,7 +16,8 @@ import {
   Button,
 } from "@mui/material";
 
-const BASE_API_URL = "http://localhost:8080/api";
+// const BASE_API_URL = "http://localhost:8080/api";
+const BASE_API_URL = "http://localhost:8085/api";
 
 const CandidateDashboard = () => {
   const { user, token } = useContext(AuthContext);
@@ -118,7 +119,10 @@ const CandidateDashboard = () => {
                     </Typography>
 
                     <Typography>&nbsp;</Typography>
-                    <Typography>Recruiter: {app.recruiterId}- {app.recruiterFirstName} {app.recruiterLastName}</Typography>
+                    <Typography>
+                      Recruiter: {app.recruiterId}- {app.recruiterFirstName}{" "}
+                      {app.recruiterLastName}
+                    </Typography>
                   </CardContent>
                   <CardActions sx={{ justifyContent: "space-between", flexWrap: "wrap" }}>
                     <Button

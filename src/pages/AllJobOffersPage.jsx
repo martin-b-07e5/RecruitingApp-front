@@ -5,6 +5,9 @@ import { Container, Typography, Box, Card, CardContent, Grid } from "@mui/materi
 import HeaderPage from "./HeaderPage";
 import FooterPage from "./FooterPage";
 
+// const BASE_API_URL = "http://localhost:8080/api";
+const BASE_API_URL = "http://localhost:8085/api";
+
 // 🌟 New page to display all job offers
 const AllJobOffersPage = () => {
   const { token } = useContext(AuthContext);
@@ -14,12 +17,9 @@ const AllJobOffersPage = () => {
   useEffect(() => {
     const fetchJobOffers = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/job-offers/getAllJobOffers",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await axios.get(`${BASE_API_URL}/job-offers/getAllJobOffers`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setJobOffers(response.data || []);
       } catch (error) {
         console.error("Fetch job offers error: ", error);
@@ -69,7 +69,6 @@ const AllJobOffersPage = () => {
 
       {/* Footer */}
       <FooterPage />
-
     </Box>
   );
 };

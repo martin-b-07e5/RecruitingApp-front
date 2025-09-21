@@ -18,6 +18,9 @@ import {
   InputLabel,
 } from "@mui/material";
 
+// const BASE_API_URL = "http://localhost:8080/api";
+const BASE_API_URL = "http://localhost:8085/api";
+
 const RecruiterDashboard = () => {
   const { user, token } = useContext(AuthContext);
   const [applications, setApplications] = useState([]);
@@ -28,7 +31,7 @@ const RecruiterDashboard = () => {
       if (user?.role === "RECRUITER" || user?.role === "ADMIN") {
         try {
           const response = await axios.get(
-            "http://localhost:8080/api/job-applications/getJobsApplicationsForRecruiters",
+            `${BASE_API_URL}/job-applications/getJobsApplicationsForRecruiters`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setApplications(response.data || []);
@@ -45,7 +48,7 @@ const RecruiterDashboard = () => {
   const handleStatusChange = async (applicationId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:8080/api/job-applications/updateApplicationStatus/${applicationId}`,
+        `${BASE_API_URL}/job-applications/updateApplicationStatus/${applicationId}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );

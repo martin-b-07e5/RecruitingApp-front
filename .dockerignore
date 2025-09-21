@@ -1,0 +1,28 @@
+# Ignore the Node.js dependencies folder
+node_modules
+
+# Ignore editor configuration files
+.vscode
+.idea
+
+# Ignore log files
+*.log
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore documentation files
+README.md
+LICENSE
+
+# Ignore ESLint configuration files
+eslint.config.js
+
+# Ignore build files
+build
+dist
+
+# Ignore temporary files
+*.tmp
+*.temp

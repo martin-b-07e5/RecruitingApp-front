@@ -21,10 +21,11 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import axios from "axios";
 
-const BASE_API_URL = "http://localhost:8080/api";
+// const BASE_API_URL = "http://localhost:8080/api";
+const BASE_API_URL = "http://localhost:8085/api";
 
 const HeaderPage = () => {
-  const { user, token ,logout } = useContext(AuthContext);
+  const { user, token, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null); // 🌟 State for menu
   const menuOpen = Boolean(anchorEl);
@@ -269,9 +270,14 @@ const HeaderPage = () => {
           ) : (
             <>
               <DialogContentText>
-                Are you sure you want to delete your account? This action cannot be undone.
+                Are you sure you want to delete your account? This action cannot be
+                undone.
               </DialogContentText>
-              {error && <Alert severity="error" aria-live="polite">{error}</Alert>}
+              {error && (
+                <Alert severity="error" aria-live="polite">
+                  {error}
+                </Alert>
+              )}
             </>
           )}
         </DialogContent>
