@@ -1,5 +1,5 @@
 # Stage 1: Build the frontend
-FROM node:22 AS builder
+FROM node:22.19.0 AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
