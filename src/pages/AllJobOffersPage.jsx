@@ -1,18 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth/AuthContext";
 import axios from "axios";
+import { BASE_API_URL } from "../config/apiConfig";
 import { Container, Typography, Box, Card, CardContent, Grid } from "@mui/material";
 import HeaderPage from "./HeaderPage";
 import FooterPage from "./FooterPage";
 
 // const BASE_API_URL = "http://localhost:8080/api";
-const BASE_API_URL = "http://localhost:8085/api";
+// const BASE_API_URL = "http://localhost:8085/api";
+// const BASE_API_URL = "http://146.235.58.90:8087/api";
 
 // 🌟 New page to display all job offers
 const AllJobOffersPage = () => {
   const { token } = useContext(AuthContext);
   const [jobOffers, setJobOffers] = useState([]);
   const [error, setError] = useState(null);
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
   useEffect(() => {
     const fetchJobOffers = async () => {

@@ -1,7 +1,9 @@
 import axios from "axios";
+import { BASE_API_URL } from "../config/apiConfig";
 
 // const BASE_API_URL = "http://localhost:8080/api";
-const BASE_API_URL = "http://localhost:8085/api";
+// const BASE_API_URL = "http://localhost:8085/api";
+// const BASE_API_URL = "http://146.235.58.90:8087/api";
 
 export const register = async (userData) => {
   try {

@@ -4,6 +4,7 @@ import { AuthContext } from "../auth/AuthContext";
 import HeaderPage from "./HeaderPage"; // Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";
+import { BASE_API_URL } from "../config/apiConfig";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
   Container,
@@ -26,7 +27,8 @@ import {
 } from "@mui/material";
 
 // const BASE_API_URL = "http://localhost:8080/api";
-const BASE_API_URL = "http://localhost:8085/api";
+// const BASE_API_URL = "http://localhost:8085/api";
+// const BASE_API_URL = "http://146.235.58.90:8087/api";
 
 const HomePage = () => {
   const { user, token } = useContext(AuthContext); // Use logout from AuthContext

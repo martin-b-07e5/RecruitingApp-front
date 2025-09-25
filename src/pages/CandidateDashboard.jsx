@@ -5,6 +5,7 @@ import FooterPage from "./FooterPage";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BASE_API_URL } from "../config/apiConfig";
 import {
   Box,
   Grid,
@@ -17,7 +18,8 @@ import {
 } from "@mui/material";
 
 // const BASE_API_URL = "http://localhost:8080/api";
-const BASE_API_URL = "http://localhost:8085/api";
+// const BASE_API_URL = "http://localhost:8085/api";
+// const BASE_API_URL = "http://146.235.58.90:8087/api";
 
 const CandidateDashboard = () => {
   const { user, token } = useContext(AuthContext);
