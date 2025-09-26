@@ -1,13 +1,13 @@
 import axios from "axios";
-import { BASE_API_URL } from "../config/apiConfig";
+import { VITE_API_BASE_URL } from "../config/apiConfig";
 
-// const BASE_API_URL = "http://localhost:8080/api";
-// const BASE_API_URL = "http://localhost:8085/api";
-// const BASE_API_URL = "http://146.235.58.90:8087/api";
+// const VITE_API_BASE_URL = "http://localhost:8080/api";
+// const VITE_API_BASE_URL = "http://localhost:8085/api";
+// const VITE_API_BASE_URL = "http://146.235.58.90:8085/api";
 
 export const register = async (userData) => {
   try {
-    const response = await axios.post(`${BASE_API_URL}/auth/register`, userData);
+    const response = await axios.post(`${VITE_API_BASE_URL}/auth/register`, userData);
     return response.data; // Expect { token, email, role }
   } catch (error) {
     console.error(error);
@@ -17,7 +17,7 @@ export const register = async (userData) => {
 
 export const login = async (userData) => {
   try {
-    const response = await axios.post(`${BASE_API_URL}/auth/login`, userData);
+    const response = await axios.post(`${VITE_API_BASE_URL}/auth/login`, userData);
     return response.data; // Expect { token, email, role }
   } catch (error) {
     console.error(error);
@@ -33,7 +33,7 @@ export const createJobOffer = async (jobOfferData) => {
     console.log(token);
     console.log(bearer_token);
     const response = await axios.post(
-      `${BASE_API_URL}/job-offers/create`,
+      `${VITE_API_BASE_URL}/job-offers/create`,
       jobOfferData,
       bearer_token
     );

@@ -3,7 +3,7 @@ import { AuthContext } from "../auth/AuthContext";
 import HeaderPage from "./HeaderPage"; // Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";
-import { BASE_API_URL } from "../config/apiConfig";
+import { VITE_API_BASE_URL } from "../config/apiConfig";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
   Container,
@@ -19,9 +19,9 @@ import {
   InputLabel,
 } from "@mui/material";
 
-// const BASE_API_URL = "http://localhost:8080/api";
-// const BASE_API_URL = "http://localhost:8085/api";
-// const BASE_API_URL = "http://146.235.58.90:8087/api";
+// const VITE_API_BASE_URL = "http://localhost:8080/api";
+// const VITE_API_BASE_URL = "http://localhost:8085/api";
+// const VITE_API_BASE_URL = "http://146.235.58.90:8087/api";
 
 const RecruiterDashboard = () => {
   const { user, token } = useContext(AuthContext);
@@ -33,7 +33,7 @@ const RecruiterDashboard = () => {
       if (user?.role === "RECRUITER" || user?.role === "ADMIN") {
         try {
           const response = await axios.get(
-            `${BASE_API_URL}/job-applications/getJobsApplicationsForRecruiters`,
+            `${VITE_API_BASE_URL}/job-applications/getJobsApplicationsForRecruiters`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setApplications(response.data || []);
@@ -50,7 +50,7 @@ const RecruiterDashboard = () => {
   const handleStatusChange = async (applicationId, newStatus) => {
     try {
       await axios.put(
-        `${BASE_API_URL}/job-applications/updateApplicationStatus/${applicationId}`,
+        `${VITE_API_BASE_URL}/job-applications/updateApplicationStatus/${applicationId}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );

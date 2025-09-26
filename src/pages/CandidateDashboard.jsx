@@ -5,7 +5,7 @@ import FooterPage from "./FooterPage";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_API_URL } from "../config/apiConfig";
+import { VITE_API_BASE_URL } from "../config/apiConfig";
 import {
   Box,
   Grid,
@@ -17,9 +17,9 @@ import {
   Button,
 } from "@mui/material";
 
-// const BASE_API_URL = "http://localhost:8080/api";
-// const BASE_API_URL = "http://localhost:8085/api";
-// const BASE_API_URL = "http://146.235.58.90:8087/api";
+// const VITE_API_BASE_URL = "http://localhost:8080/api";
+// const VITE_API_BASE_URL = "http://localhost:8085/api";
+// const VITE_API_BASE_URL = "http://146.235.58.90:8087/api";
 
 const CandidateDashboard = () => {
   const { user, token } = useContext(AuthContext);
@@ -37,7 +37,7 @@ const CandidateDashboard = () => {
 
       try {
         const response = await axios.get(
-          `${BASE_API_URL}/job-applications/getCandidateJobApplications`,
+          `${VITE_API_BASE_URL}/job-applications/getCandidateJobApplications`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setApplications(response.data || []);
@@ -58,7 +58,7 @@ const CandidateDashboard = () => {
   const handleWithdraw = async (applicationId) => {
     try {
       await axios.delete(
-        `${BASE_API_URL}/job-applications/withdrawApplication/${applicationId}`,
+        `${VITE_API_BASE_URL}/job-applications/withdrawApplication/${applicationId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

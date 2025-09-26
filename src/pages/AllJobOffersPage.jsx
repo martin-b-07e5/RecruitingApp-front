@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../auth/AuthContext";
 import axios from "axios";
-import { BASE_API_URL } from "../config/apiConfig";
+import { VITE_API_BASE_URL } from "../config/apiConfig";
 import { Container, Typography, Box, Card, CardContent, Grid } from "@mui/material";
 import HeaderPage from "./HeaderPage";
 import FooterPage from "./FooterPage";
 
-// const BASE_API_URL = "http://localhost:8080/api";
-// const BASE_API_URL = "http://localhost:8085/api";
-// const BASE_API_URL = "http://146.235.58.90:8087/api";
+// const VITE_API_BASE_URL = "http://localhost:8080/api";
+// const VITE_API_BASE_URL = "http://localhost:8085/api";
+// const VITE_API_BASE_URL = "http://146.235.58.90:8085/api";
 
 // 🌟 New page to display all job offers
 const AllJobOffersPage = () => {
@@ -20,9 +20,12 @@ const AllJobOffersPage = () => {
   useEffect(() => {
     const fetchJobOffers = async () => {
       try {
-        const response = await axios.get(`${BASE_API_URL}/job-offers/getAllJobOffers`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${VITE_API_BASE_URL}/job-offers/getAllJobOffers`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setJobOffers(response.data || []);
       } catch (error) {
         console.error("Fetch job offers error: ", error);

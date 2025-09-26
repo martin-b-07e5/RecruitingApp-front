@@ -5,7 +5,7 @@ import { createJobOffer } from "../auth/authService";
 import HeaderPage from "./HeaderPage"; // 🌟 Import Header
 import FooterPage from "./FooterPage";
 import axios from "axios";
-import { BASE_API_URL } from "../config/apiConfig";
+import { VITE_API_BASE_URL } from "../config/apiConfig";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
   Container,
@@ -20,9 +20,9 @@ import {
   FormControl,
 } from "@mui/material";
 
-// const BASE_API_URL = "http://localhost:8080/api";
-// const BASE_API_URL = "http://localhost:8085/api";
-// const BASE_API_URL = "http://146.235.58.90:8087/api";
+// const VITE_API_BASE_URL = "http://localhost:8080/api";
+// const VITE_API_BASE_URL = "http://localhost:8085/api";
+// const VITE_API_BASE_URL = "http://146.235.58.90:8087/api";
 
 const JobOfferCreatePage = () => {
   const { user, token } = useContext(AuthContext);
@@ -54,7 +54,7 @@ const JobOfferCreatePage = () => {
         return;
       }
       try {
-        const response = await axios.get(`${BASE_API_URL}/users/companies`, {
+        const response = await axios.get(`${VITE_API_BASE_URL}/users/companies`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCompanyIds(response.data || []); // Expect array of Longs, e.g., [1, 3]
