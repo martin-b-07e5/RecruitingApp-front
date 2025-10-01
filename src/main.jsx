@@ -8,6 +8,7 @@ import { AuthProvider } from "./auth/AuthContext.jsx";
 const AnalyticsTracker = () => {
   const location = useLocation();
   useEffect(() => {
+    console.log('Google Analytics: Sending pageview for', location.pathname + location.search);
     window.gtag('config', 'G-H3J2ZJBLHH', {
       page_path: location.pathname + location.search,
     });
