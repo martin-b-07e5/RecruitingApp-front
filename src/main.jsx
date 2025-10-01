@@ -4,6 +4,17 @@ import "./index.css";
 import App from "./App.jsx";
 import { AuthProvider } from "./auth/AuthContext.jsx";
 
+// Component to track page views
+const AnalyticsTracker = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.gtag('config', 'G-H3J2ZJBLHH', {
+      page_path: location.pathname + location.search,
+    });
+  }, [location]);
+  return null;
+};
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
