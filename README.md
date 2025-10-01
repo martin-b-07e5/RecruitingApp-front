@@ -11,7 +11,7 @@ backend and React frontend.
 
 - **As a 🎯recruiter**: I can post jobs and manage hiring processes.
 - **As a 👤candidate**: I can apply for jobs and follow my jobApplication status.
-~~- **As an 🔧administrator**: I can manage users and platform content.~~
+- **As an 🔧administrator**: ~~I can manage users and platform content.~~
 
 ## ✨ Essential Features
 
@@ -30,7 +30,7 @@ backend and React frontend.
 - ✅ **Job Management** - 🎯Recruiters create, edit, and publish job offers.
 - ✅ **Application System** - 👤Candidates can apply for jobs and track status.
 - ✅ **User Management** - Role-based access control.
-~~- ✅ **Notification System** - Real-time updates for applications.~~
+- ✅ **Notification System** ~~- Real-time updates for applications.~~
 
 ## 🛠️ Technology Stack
 
