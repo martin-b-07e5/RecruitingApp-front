@@ -6,10 +6,6 @@ import { Container, Typography, Box, Card, CardContent, Grid } from "@mui/materi
 import HeaderPage from "./HeaderPage";
 import FooterPage from "./FooterPage";
 
-// const VITE_API_BASE_URL = "http://localhost:8080/api";
-// const VITE_API_BASE_URL = "http://localhost:8085/api";
-// const VITE_API_BASE_URL = "http://146.235.58.90:8085/api";
-
 // 🌟 New page to display all job offers
 const AllJobOffersPage = () => {
   const { token } = useContext(AuthContext);

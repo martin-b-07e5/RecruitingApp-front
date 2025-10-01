@@ -20,10 +20,6 @@ import {
   FormControl,
 } from "@mui/material";
 
-// const VITE_API_BASE_URL = "http://localhost:8080/api";
-// const VITE_API_BASE_URL = "http://localhost:8085/api";
-// const VITE_API_BASE_URL = "http://146.235.58.90:8087/api";
-
 const JobOfferCreatePage = () => {
   const { user, token } = useContext(AuthContext);
   const navigate = useNavigate();

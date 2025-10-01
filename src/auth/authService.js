@@ -1,10 +1,6 @@
 import axios from "axios";
 import { VITE_API_BASE_URL } from "../config/apiConfig";
 
-// const VITE_API_BASE_URL = "http://localhost:8080/api";
-// const VITE_API_BASE_URL = "http://localhost:8085/api";
-// const VITE_API_BASE_URL = "http://146.235.58.90:8085/api";
-
 export const register = async (userData) => {
   try {
     const response = await axios.post(`${VITE_API_BASE_URL}/auth/register`, userData);
