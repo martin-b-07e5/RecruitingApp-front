@@ -44,6 +44,7 @@ backend and React frontend.
 - **Nginx**: Web server for serving the frontend with HTTPS
 - **Docker**: Containerization for consistent deployment
 - **Let's Encrypt**: SSL/TLS certificates for secure HTTPS communication
+- **Google Analytics**: For tracking user interactions and page views
 
 ---
 
