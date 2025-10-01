@@ -40,11 +40,12 @@ const SignInPage = () => {
       return;
     }
 
-    console.log(
+    // 🌟 Debug payload
+    /* console.log(
       "🚀 ~ file: SignInPage.jsx ~ line ~48 ~ handleSubmit ~ formData",
       formData
     );
-    console.log("Sending payload:", formData); // 🌟 Debug payload
+    console.log("Sending payload:", formData); */
 
     try {
       const response = await loginService(formData);
