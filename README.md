@@ -34,11 +34,13 @@ backend and React frontend.
 
 ## 🛠️ Technology Stack
 
+## 🛠️ Technology Stack
+
 ### Frontend
 - **React.js**: JavaScript library for building the user interface
-- **TypeScript/JavaScript**: For type-safe and dynamic frontend development
+- **JavaScript**: For dynamic frontend development
 - **Vite**: Build tool for fast development and optimized production builds
-- **Tailwind CSS**: Utility-first CSS framework for styling
+- **MUI (Material-UI)**: Component library for styling and UI
 - **Nginx**: Web server for serving the frontend with HTTPS
 - **Docker**: Containerization for consistent deployment
 - **Let's Encrypt**: SSL/TLS certificates for secure HTTPS communication
