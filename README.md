@@ -1,4 +1,8 @@
 [RecruitingApp url](https://hackaton202508.duckdns.org:3003/)
+[RecruitingApp url](https://iubuntu.duckdns.org:3003/)
+
+[RecruitingApp url](https://irocky9.duckdns.org/)
+[RecruitingApp url](https://irocky9.duckdns.org:8444/)
 
 ---
 
@@ -37,6 +41,7 @@ backend and React frontend.
 ## 🛠️ Technology Stack
 
 ### Frontend
+
 - **React.js**: JavaScript library for building the user interface
 - **JavaScript**: For dynamic frontend development
 - **Vite**: Build tool for fast development and optimized production builds

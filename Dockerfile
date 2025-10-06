@@ -11,10 +11,7 @@ RUN npm run build
 
 # Stage 2: Serve the frontend
 FROM nginx:alpine
-# Use a build argument to specify the Nginx config file
-ARG NGINX_CONFIG=nginx.conf
-#ARG NGINX_CONFIG=nginx-remote.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY ${NGINX_CONFIG} /etc/nginx/conf.d/default.conf
-EXPOSE 80 443
+COPY nginx-remote.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
